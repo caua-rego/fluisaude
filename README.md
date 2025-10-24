@@ -16,10 +16,10 @@ O **FluiSaúde** é um sistema de gerenciamento para Unidades Básicas de Saúde
 
 -   Cauã Rego Tavares Leite Duarte
 -   Matheus Rodrigues Laré
--   Guilherme
+-   Guilherme Alves
 -   Fernando Andrade
 -   João Pedro Cavalcanti de Souza
--   Gabriel
+-   Gabriel Brito Ferreira Dias
 -   Luis Felipe Farias Nunes
 -   Renato Santos Chong
 
