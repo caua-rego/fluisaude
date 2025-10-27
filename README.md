@@ -52,6 +52,10 @@ O backend do projeto é desenvolvido com as seguintes tecnologias:
 
 O projeto segue uma **Clean Architecture simples** com separação clara de responsabilidades:
 
+<img width="965" height="774" alt="image" src="https://github.com/user-attachments/assets/c804432f-c33d-414a-b9da-b0bcbe356570" />
+
+---
+
 ```
 fluisaude/
 ├── models/              # Modelos de dados (entidades do banco)
