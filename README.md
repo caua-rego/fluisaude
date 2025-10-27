@@ -80,6 +80,12 @@ fluisaude/
 - **App:** Factory pattern para criação e configuração da aplicação Flask.
 - **Main:** Arquivo inicial que executa a aplicação.
 
+
+1.  **CRUD de Pacientes:** Gerenciamento completo dos dados dos pacientes.
+2.  **CRUD de Médicos:** Gerenciamento de profissionais de saúde e suas especialidades.
+3.  **CRUD de Consultas:** Agendamento, visualização, atualização e cancelamento de consultas.
+4.  **CRUD de Especialidades:** Cadastro e gerenciamento das especialidades médicas disponíveis. (Matheus Laré; Luís Nunes)
+
 ---
 
 ## Padrões de Código (Python)
