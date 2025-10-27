@@ -51,7 +51,7 @@ O escopo inicial do projeto prevê a implementação de 4 operações de CRUD (C
 1.  **CRUD de Pacientes:** Gerenciamento completo dos dados dos pacientes.
 2.  **CRUD de Médicos:** Gerenciamento de profissionais de saúde e suas especialidades.
 3.  **CRUD de Consultas:** Agendamento, visualização, atualização e cancelamento de consultas.
-4.  **CRUD de Especialidades:** Cadastro e gerenciamento das especialidades médicas disponíveis.
+4.  **CRUD de Especialidades:** Cadastro e gerenciamento das especialidades médicas disponíveis. (Matheus Laré; Luís Nunes)
 
 ---
 
