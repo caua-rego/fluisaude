@@ -1,14 +1,8 @@
-'''
-Main do projeto
-'''
-from flask import Flask
-import sqlite3
+"""
+Main do projeto - FluiSaúde
+"""
+from app import create_app
 
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "Hello, World!"
-
-if __name__ == '__main__':
+if __name__ == "__main__":
+    app = create_app()
     app.run(debug=True)
