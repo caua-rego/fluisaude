@@ -153,14 +153,14 @@ Gerenciamento completo dos dados dos pacientes.
 - **Update:** Atualizar dados cadastrais do paciente.
 - **Delete:** Remover paciente do sistema.
 
-### 3. CRUD de Médicos (Planejado)
+### 3. CRUD de Médicos (Renato Santos Chong)
 Gerenciamento de profissionais de saúde e suas informações.
 - **Create:** Cadastrar novo médico com especialidades.
 - **Read:** Listar todos os médicos ou buscar médico específico.
 - **Update:** Atualizar informações do médico.
 - **Delete:** Remover médico do sistema.
 
-### 4. CRUD de Especialidades (Planejado)
+### 4. CRUD de Especialidades (Matheus Larré, Luis Nunes)
 Cadastro e gerenciamento das especialidades médicas disponíveis.
 - **Create:** Adicionar nova especialidade médica.
 - **Read:** Listar todas as especialidades disponíveis.
