@@ -2,9 +2,8 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
-import { useNavigate } from 'react-router-dom';
 
-const decorativeVariants = {
+const decorativeVariants: any = {
   initial: {
     opacity: 0,
   },
@@ -15,14 +14,13 @@ const decorativeVariants = {
     transition: {
       duration: 15 + i * 5,
       repeat: Infinity,
-      repeatType: "mirror",
+      repeatType: 'mirror',
     },
   }),
 };
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   return (
     <section
@@ -74,7 +72,7 @@ const HeroSection = () => {
         >
           <Button
             size="lg"
-            onClick={() => { window.location.href = `${window.location.protocol}//${window.location.hostname}:5001/dashboard`; }}
+            onClick={() => { /* open backend-served dashboard on the same origin */ window.location.href = '/dashboard'; }}
             className="group relative overflow-hidden bg-gradient-to-r from-accent to-primary text-white font-semibold px-8 py-6 text-lg rounded-2xl shadow-glow hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             <span className="relative z-10 flex items-center gap-2">
