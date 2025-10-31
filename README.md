@@ -64,10 +64,10 @@ O backend do projeto será desenvolvido com as seguintes tecnologias:
 
 O escopo inicial do projeto prevê a implementação de 4 operações de CRUD (Create, Read, Update, Delete) para as seguintes entidades do sistema:
 
-1.  **CRUD de Pacientes:** Gerenciamento completo dos dados dos pacientes.
-2.  **CRUD de Médicos:** Gerenciamento de profissionais de saúde e suas especialidades.
-3.  **CRUD de Consultas:** Agendamento, visualização, atualização e cancelamento de consultas.
-4.  **CRUD de Especialidades:** Cadastro e gerenciamento das especialidades médicas disponíveis. (Matheus Laré; Luís Nunes)
+1.  **CRUD de Pacientes:** Gerenciamento completo dos dados dos pacientes. (Renato Santos Chong; Fernando Andrade)
+2.  **CRUD de Médicos:** Gerenciamento de profissionais de saúde e suas especialidades. (Gabriel Brito; Cauã Rêgo)
+3.  **CRUD de Consultas:** Agendamento, visualização, atualização e cancelamento de consultas. (Gui Alves; João Pedro)
+4.  **CRUD de Especialidades:** Cadastro e gerenciamento das especialidades médicas disponíveis. (Matheus Larré; Luís Nunes)
 
 ## Como rodar o projeto integrado (backend + frontend)
 
