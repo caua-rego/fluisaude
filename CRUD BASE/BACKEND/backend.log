@@ -365,3 +365,5 @@ sqlalchemy.exc.StatementError: (builtins.TypeError) SQLite DateTime type only ac
 127.0.0.1 - - [31/Oct/2025 02:04:06] "GET /api/pacientes HTTP/1.1" 200 -
 127.0.0.1 - - [31/Oct/2025 02:04:06] "GET /api/medicos HTTP/1.1" 200 -
 127.0.0.1 - - [31/Oct/2025 02:04:07] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:08:26] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:08:28] "GET /favicon.ico HTTP/1.1" 200 -

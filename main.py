@@ -14,4 +14,4 @@ if __name__ == '__main__':
     # e fornece páginas de erro detalhadas.
     # `host='0.0.0.0'` faz com que o servidor seja acessível a partir de qualquer endereço de IP,
     # o que é útil para testes em outros dispositivos na mesma rede.
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)

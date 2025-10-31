@@ -102,6 +102,7 @@ const ComparisonSection = () => {
         >
           <Button
             size="lg"
+            onClick={() => { window.location.href = '/dashboard'; }}
             className="group relative overflow-hidden bg-gradient-to-r from-accent to-primary text-white font-semibold px-8 py-6 text-lg rounded-2xl shadow-glow hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             <span className="relative z-10 flex items-center gap-2">

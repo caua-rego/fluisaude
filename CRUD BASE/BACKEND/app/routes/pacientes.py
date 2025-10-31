@@ -18,6 +18,16 @@ def create_paciente():
 
 @pacientes_bp.route('/pacientes', methods=['GET'])
 def get_pacientes():
+    # Support optional query parameters: ?cpf=... to filter by CPF, ?q=... to search by nome or cpf
+    cpf = request.args.get('cpf')
+    q = request.args.get('q')
+    if cpf:
+        paciente = Paciente.query.filter_by(cpf=cpf).first()
+        return jsonify(paciente.to_json() if paciente else {} )
+    if q:
+        pacientes = Paciente.query.filter((Paciente.nome.contains(q)) | (Paciente.cpf.contains(q))).all()
+        return jsonify([paciente.to_json() for paciente in pacientes])
+
     pacientes = Paciente.query.all()
     return jsonify([paciente.to_json() for paciente in pacientes])
 
