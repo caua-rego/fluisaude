@@ -40,7 +40,7 @@ O backend do projeto será desenvolvido com as seguintes tecnologias:
 
 -   **Python:** Linguagem de programação principal para toda a lógica de negócio e construção do servidor.
 -   **Flask:** Um micro-framework web para Python, utilizado para construir a API RESTful que servirá os dados para o cliente.
--   **SQLite3:** Um banco de dados relacional leve e baseado em arquivo, utilizado para o armazenamento e gerenciamento dos dados da aplicação.
+-   **SQLALCHEMY:** Um banco de dados relacional leve e baseado em arquivo, utilizado para o armazenamento e gerenciamento dos dados da aplicação.
 
 ---
 
@@ -52,6 +52,39 @@ O escopo inicial do projeto prevê a implementação de 4 operações de CRUD (C
 2.  **CRUD de Médicos:** Gerenciamento de profissionais de saúde e suas especialidades.
 3.  **CRUD de Consultas:** Agendamento, visualização, atualização e cancelamento de consultas.
 4.  **CRUD de Especialidades:** Cadastro e gerenciamento das especialidades médicas disponíveis. (Matheus Laré; Luís Nunes)
+
+## Como rodar o projeto integrado (backend + frontend)
+
+Se você quer servir o frontend junto com o backend (mesmo servidor), siga estes passos rápidos:
+
+1. Construa o frontend (na pasta `FRONTEND`):
+
+```bash
+cd FRONTEND
+npm install
+npm run build
+```
+
+2. Copie os arquivos gerados (`dist/`) para o backend (exemplo):
+
+```bash
+mkdir -p "CRUD BASE/BACKEND/app/static/app"
+rsync -a --delete FRONTEND/dist/ "CRUD BASE/BACKEND/app/static/app/"
+```
+
+3. Inicie o backend (use o virtualenv):
+
+```bash
+cd "CRUD BASE/BACKEND"
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python run.py  # por padrão o projeto usa 5001 para evitar conflitos locais
+```
+
+4. Abra `http://localhost:5001/` para ver o frontend servido pelo Flask. O dashboard simples também está disponível em `/dashboard`.
+
+Observação: o cliente já foi atualizado para usar chamadas relativas à API (`/api`) para que o build funcione quando servido pelo mesmo host.
 
 ---
 
