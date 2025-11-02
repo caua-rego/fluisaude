@@ -1,6 +1,6 @@
 # Backend do FluiSaúde
 
-Este diretório contém o backend da aplicação FluiSaúde, uma API RESTful desenvolvida com Flask para gerenciar pacientes, médicos, especialidades e consultas.
+Este diretório contém o backend da aplicação FluiSaúde, uma API RESTful desenvolvida com Flask para gerenciar pacientes, médicos, especialidades e consultass.
 
 ## Arquitetura
 
