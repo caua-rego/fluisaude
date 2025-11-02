@@ -74,4 +74,18 @@ def atualizar_consulta(consulta_id):
             "horario": consulta.horario
         }), 200
     finally:
-        db.close()
+      db.close()
+      
+@consultas_bp.route('/<int:consulta_id>', methods=['DELETE'])
+def deletar_consulta(consulta_id):
+    db = SessionLocal()
+    try:
+        consulta = db.query(Consulta).filter(Consulta.id == consulta_id).first()
+        if not consulta:
+            return jsonify({"error": "Consulta não encontrada"}), 404
+
+        db.delete(consulta)
+        db.commit()
+        return jsonify({"message": "Consulta deletada com sucesso"}), 200
+    finally:
+        db.close()       
