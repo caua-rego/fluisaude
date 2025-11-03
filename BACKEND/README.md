@@ -1,10 +1,6 @@
 # Backend do FluiSaúde
 
-Este diretório contém o backend da aplicação FluiSaúde, uma API RESTful desenvolvida com Flask para gerenciar pacientes, médicos, especialidades e consultas.
-````markdown
-# Backend do FluiSaúde
-
-Este diretório contém o backend da aplicação FluiSaúde, uma API RESTful desenvolvida com Flask para gerenciar pacientes, médicos, especialidades e consultas.
+Este diretório contém o backend da aplicação FluiSaúde, uma API RESTful desenvolvida com Flask para gerenciar pacientes, médicos, especialidades e consultass.
 
 ## Arquitetura
 
@@ -12,101 +8,121 @@ A aplicação segue uma arquitetura modular, utilizando Blueprints do Flask para
 
 ```
 /BACKEND/
-├───run.py
-├───requirements.txt
-├───config.py
-├───instance/
-│   └───banco_de_dados.db
+├───run.py                 # Ponto de entrada da aplicação
+├───main.py               # Script para criar tabelas do banco
+├───requirements.txt      # Dependências do projeto
+├───database.db          # Banco SQLite (criado automaticamente)
+├───database/
+│   └───connection.py    # Configuração do banco de dados
 └───app/
-    ├───__init__.py
-    ├───models/
-    │   ├───paciente.py
-    │   ├───medico.py
-    │   ├───consulta.py
-    │   └───especialidade.py
-    └───routes/
-        ├───pacientes.py
-        ├───medicos.py
-        ├───consultas.py
-        └───especialidades.py
+    ├───__init__.py      # Factory function da aplicação Flask
+    ├───models/          # Models SQLAlchemy (tabelas)
+    │   ├───consulta.py  # Model de consultas (implementado)
+    │   ├───paciente.py  # Model de pacientes (vazio)
+    │   ├───medico.py    # Model de médicos (vazio)
+    │   └───especialidade.py # Model de especialidades (vazio)
+    └───routes/          # Rotas da API (endpoints)
+        ├───consultas.py # Rotas de consultas (POST implementado)
+        ├───pacientes.py # Rotas de pacientes (vazio)
+        ├───medicos.py   # Rotas de médicos (vazio)
+        └───especialidades.py # Rotas de especialidades (vazio)
 ```
 
-### Componentes
+## Configuração do Ambiente
 
-*   **`run.py`**: Ponto de entrada para iniciar o servidor Flask.
-*   **`requirements.txt`**: Lista as dependências Python do projeto.
-*   **`config.py`**: Contém as configurações da aplicação, como a URI do banco de dados e a chave secreta.
-*   **`instance/`**: Armazena o arquivo do banco de dados SQLite (`banco_de_dados.db`).
-*   **`app/`**: Pacote principal da aplicação.
-    *   **`__init__.py`**: Inicializa a aplicação Flask, o SQLAlchemy e registra os Blueprints.
-    *   **`models/`**: Define os modelos de dados (tabelas) do SQLAlchemy.
-    *   **`routes/`**: Define as rotas da API (endpoints) para cada módulo usando Blueprints.
+1. **Ativar o ambiente virtual:**
+   ```bash
+   source venv/bin/activate
+   ```
 
-## Como Executar (atualizado e prático)
+2. **Instalar dependências (se necessário):**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-1.  **Criar e ativar um ambiente virtual (recomendado):**
+## Como Executar
 
-    ```bash
-    python3 -m venv .venv
-    source .venv/bin/activate
-    ```
-
-2.  **Instalar as dependências:**
-
-    ```bash
-    pip install --upgrade pip
-    pip install -r requirements.txt
-    ```
-
-3.  **Executar a aplicação (padrão):**
-
-    ```bash
-    python run.py
-    ```
-
-    Observação: Em alguns diretórios deste repositório o servidor foi configurado para rodar na porta **5001** (para evitar conflitos). Verifique `run.py` se quiser confirmar/alterar a porta.
-
-## Endpoints da API
-
-A API fornece endpoints para as operações de CRUD em cada um dos módulos. Os endpoints têm prefixo `/api/` (ex.: `/api/pacientes`).
-
-### Formatos e convenções importantes
-
-- Todos os endpoints que recebem payloads JSON esperam o header `Content-Type: application/json`.
-- `pacientes.cpf`: string de 11 dígitos (apenas números), ex.: `"12345678901"`.
-- `consultas.data_agendamento`: enviar em `YYYY-MM-DDTHH:MM` ou ISO-8601; o backend faz parse para `datetime`.
-
-### Exemplos de uso (curl)
-
+### 1. Criar as tabelas do banco:
 ```bash
-# listar pacientes
-curl http://127.0.0.1:5001/api/pacientes
+python main.py
+```
+Este comando cria as tabelas no arquivo `database.db`.
 
-# criar paciente
-curl -X POST http://127.0.0.1:5001/api/pacientes \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"Fulano","cpf":"12345678901","telefone":"(11)99999-9999"}'
+### 2. Iniciar o servidor:
+```bash
+python run.py
+```
+O servidor será iniciado em `http://localhost:5001`.
 
-# criar consulta
-curl -X POST http://127.0.0.1:5001/api/consultas \
+## Implementação por CRUD
+
+Cada dupla deve implementar seus respectivos CRUDs nos arquivos designados:
+
+### Dupla de Consultas (já implementado como exemplo):
+- **Model:** `app/models/consulta.py` - OK
+- **Routes:** `app/routes/consultas.py` - POST implementado
+- **Rotas disponíveis:** `POST http://localhost:5001/consultas/`
+
+Exemplo de uso:
+```bash
+curl -X POST http://localhost:5001/consultas/ \
   -H "Content-Type: application/json" \
-  -d '{"paciente_id":1,"medico_id":1,"data_agendamento":"2025-10-31T14:30"}'
+  -d '{
+    "paciente_nome": "João Silva",
+    "medico_nome": "Dr. Pedro",
+    "especialidade": "Cardiologia",
+    "horario": "2024-01-15 14:30"
+  }'
 ```
 
-## Debugging e troubleshooting
+### Dupla de Pacientes:
+- **Model:** `app/models/paciente.py` - IMPLEMENTAR
+- **Routes:** `app/routes/pacientes.py` - IMPLEMENTAR
+- **Registrar em `app/__init__.py`** quando pronto
 
-- `ImportError: cannot import name 'create_app' from 'app'` — significa que `app/__init__.py` não exporta `create_app`. Use a versão funcional em `CRUD BASE/BACKEND` ou copie `CRUD BASE/BACKEND/app/` para `BACKEND/app/`.
-- `ModuleNotFoundError: No module named 'flask'` — ative o `.venv` correto e instale as dependências com `pip install -r requirements.txt`.
-- Porta ocupada: `lsof -iTCP:<port> -sTCP:LISTEN -n -P` para identificar e `kill <PID>` para liberar.
+### Dupla de Médicos:
+- **Model:** `app/models/medico.py` - IMPLEMENTAR
+- **Routes:** `app/routes/medicos.py` - IMPLEMENTAR
+- **Registrar em `app/__init__.py`** quando pronto
 
-## Integração com frontend
+### Dupla de Especialidades:
+- **Model:** `app/models/especialidade.py` - IMPLEMENTAR
+- **Routes:** `app/routes/especialidades.py` - IMPLEMENTAR
+- **Registrar em `app/__init__.py`** quando pronto
 
-Se você deseja servir o frontend a partir deste backend, gere o build no diretório `FRONTEND` e copie o conteúdo de `dist/` para `BACKEND/app/static/app/` (ou para `CRUD BASE/BACKEND/app/static/app/` caso prefira o backend de referência). Em seguida, acesse a raiz (`/`) para ver o SPA servido pelo Flask.
+## Passos para Implementação de Novos CRUDs
 
-## Recomendações
+1. **Criar o Model:**
+   - Definir a classe SQLAlchemy em `app/models/[entidade].py`
+   - Herdar de `Base` (importado de `database.connection`)
+   - Definir colunas com os tipos apropriados
 
-- Utilize `CRUD BASE/BACKEND` como referência funcional se encontrar problemas com `BACKEND/`.
-- Considere adicionar Flask-Migrate para gerir alterações no esquema do banco.
-- Em produção, use um servidor WSGI (gunicorn) e um proxy reverso (nginx).
+2. **Implementar as Rotas:**
+   - Criar blueprint em `app/routes/[entidade].py`
+   - Implementar métodos HTTP (GET, POST, PUT, DELETE)
+   - Usar `SessionLocal()` para conexão com banco
 
-````
+3. **Registrar as Rotas:**
+   - Adicionar import em `app/__init__.py`
+   - Registrar blueprint com `app.register_blueprint()`
+
+4. **Atualizar `main.py`:**
+   - Importar o novo model no `main.py`
+   - Rodar `python main.py` para criar a tabela
+
+## Estrutura de Exemplo (Consultas)
+
+Para referência, use a implementação existente de consultas como base para os outros CRUDs.
+
+## Banco de Dados
+
+- **Tipo:** SQLite
+- **Arquivo:** `database.db`
+- **ORM:** SQLAlchemy
+- **Conexão:** `database/connection.py`
+
+## Troubleshooting
+
+- **ModuleNotFoundError:** Ative o venv com `source venv/bin/activate`
+- **Porta ocupada:** Verifique se outra instância está rodando em 5001
+- **Tabelas não encontradas:** Execute `python main.py` para criar as tabelas
