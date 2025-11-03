@@ -1,83 +1,145 @@
-from flask import Blueprint, request, jsonify
-from app.models.consulta import Consulta
-from app import db
-from datetime import datetime
+from flask import Blueprint, jsonify, request
+
+from app.controllers.consulta_controller import (
+    create_consulta as create_consulta_use_case,
+    delete_consulta as delete_consulta_use_case,
+    get_consulta_by_id,
+    list_consultas,
+    update_consulta as update_consulta_use_case,
+)
 
 consultas_bp = Blueprint('consultas_bp', __name__)
 
 
-def parse_datetime(value):
-    """Try to parse a datetime value coming from the client.
-    Accepts ISO 8601 strings (with or without seconds) and returns a datetime.
-    Raises ValueError if parsing fails.
-    """
-    if isinstance(value, datetime):
-        return value
-    if not value:
-        raise ValueError('data_agendamento is required')
-    # Some browsers/inputs send 'YYYY-MM-DDTHH:MM' (no seconds) which fromisoformat accepts
-    try:
-        return datetime.fromisoformat(value)
-    except Exception:
-        # Try a common alternative format
-        try:
-            return datetime.strptime(value, '%Y-%m-%dT%H:%M')
-        except Exception:
-            raise ValueError('Formato de data inválido')
-
-
 @consultas_bp.route('/consultas', methods=['POST'])
 def create_consulta():
-    data = request.get_json() or {}
+    """
+    Cria uma consulta medica.
+    ---
+    tags:
+      - Consultas
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - paciente_id
+            - medico_id
+            - data_agendamento
+          properties:
+            paciente_id:
+              type: integer
+            medico_id:
+              type: integer
+            data_agendamento:
+              type: string
+              format: date-time
+            status:
+              type: string
+    responses:
+      201:
+        description: Consulta criada
+      400:
+        description: Erro de validacao
+    """
     try:
-        paciente_id = int(data.get('paciente_id'))
-        medico_id = int(data.get('medico_id'))
-        data_agendamento = parse_datetime(data.get('data_agendamento'))
-    except (TypeError, ValueError) as e:
-        return jsonify({'error': str(e)}), 400
-
-    nova_consulta = Consulta(
-        paciente_id=paciente_id,
-        medico_id=medico_id,
-        data_agendamento=data_agendamento
-    )
-    db.session.add(nova_consulta)
-    db.session.commit()
-    return jsonify(nova_consulta.to_json()), 201
+        consulta = create_consulta_use_case(request.get_json() or {})
+    except ValueError as exc:
+        return jsonify({'error': str(exc)}), 400
+    return jsonify(consulta.to_json()), 201
 
 
 @consultas_bp.route('/consultas', methods=['GET'])
 def get_consultas():
-    consultas = Consulta.query.all()
+    """
+    Lista todas as consultas.
+    ---
+    tags:
+      - Consultas
+    responses:
+      200:
+        description: Lista de consultas
+    """
+    consultas = list_consultas()
     return jsonify([consulta.to_json() for consulta in consultas])
 
 
 @consultas_bp.route('/consultas/<int:id>', methods=['GET'])
-def get_consulta(id):
-    consulta = Consulta.query.get_or_404(id)
+def get_consulta(id: int):
+    """
+    Busca uma consulta pelo ID.
+    ---
+    tags:
+      - Consultas
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+    responses:
+      200:
+        description: Consulta retornada
+    """
+    consulta = get_consulta_by_id(id)
     return jsonify(consulta.to_json())
 
 
 @consultas_bp.route('/consultas/<int:id>', methods=['PUT'])
-def update_consulta(id):
-    data = request.get_json() or {}
-    consulta = Consulta.query.get_or_404(id)
+def update_consulta(id: int):
+    """
+    Atualiza os dados de uma consulta.
+    ---
+    tags:
+      - Consultas
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+      - in: body
+        name: body
+        schema:
+          type: object
+          properties:
+            paciente_id:
+              type: integer
+            medico_id:
+              type: integer
+            data_agendamento:
+              type: string
+              format: date-time
+            status:
+              type: string
+    responses:
+      200:
+        description: Consulta atualizada
+      400:
+        description: Erro de validacao
+    """
     try:
-        consulta.paciente_id = int(data.get('paciente_id', consulta.paciente_id))
-        consulta.medico_id = int(data.get('medico_id', consulta.medico_id))
-        if 'data_agendamento' in data and data.get('data_agendamento'):
-            consulta.data_agendamento = parse_datetime(data.get('data_agendamento'))
-        consulta.status = data.get('status', consulta.status)
-    except (TypeError, ValueError) as e:
-        return jsonify({'error': str(e)}), 400
-
-    db.session.commit()
+        consulta = update_consulta_use_case(id, request.get_json() or {})
+    except ValueError as exc:
+        return jsonify({'error': str(exc)}), 400
     return jsonify(consulta.to_json())
 
 
 @consultas_bp.route('/consultas/<int:id>', methods=['DELETE'])
-def delete_consulta(id):
-    consulta = Consulta.query.get_or_404(id)
-    db.session.delete(consulta)
-    db.session.commit()
+def delete_consulta(id: int):
+    """
+    Remove uma consulta.
+    ---
+    tags:
+      - Consultas
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+    responses:
+      200:
+        description: Consulta removida
+    """
+    delete_consulta_use_case(id)
     return jsonify({'message': 'Consulta deletada com sucesso'})

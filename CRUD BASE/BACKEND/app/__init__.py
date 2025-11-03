@@ -2,6 +2,7 @@ from flask import Flask
 from flask import send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flasgger import Swagger
 
 db = SQLAlchemy()
 
@@ -12,6 +13,38 @@ def create_app():
     CORS(app)
 
     db.init_app(app)
+
+    app.config['SWAGGER'] = {
+        'title': 'FluiSaude API',
+        'uiversion': 3,
+    }
+
+    swagger_template = {
+        'swagger': '2.0',
+        'info': {
+            'title': 'FluiSaude API',
+            'description': 'Documentacao interativa dos endpoints CRUD da aplicacao.',
+            'version': '1.0.0',
+        },
+        'basePath': '/api',
+    }
+
+    swagger_config = {
+        'headers': [],
+        'specs': [
+            {
+                'endpoint': 'apispec_1',
+                'route': '/api/docs.json',
+                'rule_filter': lambda rule: rule.rule.startswith('/api'),
+                'model_filter': lambda tag: True,
+            }
+        ],
+        'static_url_path': '/flasgger_static',
+        'swagger_ui': True,
+        'specs_route': '/api/docs/',
+    }
+
+    Swagger(app, config=swagger_config, template=swagger_template)
 
     with app.app_context():
         from .routes.pacientes import pacientes_bp
