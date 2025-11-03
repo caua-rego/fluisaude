@@ -8,7 +8,7 @@ Este diretório contém o backend da aplicação FluiSaúde, uma API RESTful des
 
 ## Arquitetura
 
-A aplicação segue uma arquitetura modular, utilizando Blueprints do Flask para separar as responsabilidades de cada entidade do sistema.
+A aplicação segue uma arquitetura modular, utilizando Blueprints do Flask para separar as responsabilidades de cada entidade dos sistemas.
 
 ```
 /BACKEND/
