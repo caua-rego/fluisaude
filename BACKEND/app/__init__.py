@@ -1,40 +1,28 @@
 from flask import Flask
-from flask import send_from_directory
+from flask import send_from_directory, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flasgger import Swagger
+from sqlalchemy.exc import SQLAlchemyError
+from werkzeug.exceptions import HTTPException
+import logging
+import os
 
 db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
     
-    # Carrega a configuração do arquivo config.py na raiz do BACKEND
-    app.config.from_object('config.DevelopmentConfig')
+    # Carrega a configuração de banco na pasta database
+    app.config.from_object('database.DevelopmentConfig')
+
+    log_level = app.config.get('LOG_LEVEL', logging.INFO)
+    logging.basicConfig(level=log_level)
+    app.logger.setLevel(log_level)
 
     # Inicializa as extensões
     CORS(app)
     db.init_app(app)
-
-    # Configura o Flasgger para a documentação da API
-    app.config['SWAGGER'] = {
-        'title': 'FluiSaude API',
-        'uiversion': 3
-    }
-    Swagger(app)
-
-    with app.app_context():
-        # Importa os blueprints (rotas)
-    app.config.from_object('config.DevelopmentConfig')
-
-    CORS(app)
-
-    db.init_app(app)
-
-    app.config['SWAGGER'] = {
-        'title': 'FluiSaude API',
-        'uiversion': 3,
-    }
 
     swagger_template = {
         'swagger': '2.0',
@@ -63,26 +51,19 @@ def create_app():
 
     Swagger(app, config=swagger_config, template=swagger_template)
 
+    # Registra os blueprints da API
+    from .routes.pacientes import pacientes_bp
+    from .routes.medicos import medicos_bp
+    from .routes.especialidades import especialidades_bp
+    from .routes.consultas import consulta_bp
+
+    app.register_blueprint(pacientes_bp, url_prefix='/api')
+    app.register_blueprint(medicos_bp, url_prefix='/api')
+    app.register_blueprint(especialidades_bp, url_prefix='/api')
+    app.register_blueprint(consulta_bp, url_prefix='/api/consultas')
+
+    # As tabelas são criadas sob demanda para ambientes sem migrações
     with app.app_context():
-        from .routes.pacientes import pacientes_bp
-        from .routes.medicos import medicos_bp
-        from .routes.especialidades import especialidades_bp
-        from .routes.consultas import consulta_bp
-
-        # Registra os blueprints na aplicação
-        app.register_blueprint(pacientes_bp, url_prefix='/api')
-        app.register_blueprint(medicos_bp, url_prefix='/api')
-        app.register_blueprint(especialidades_bp, url_prefix='/api')
-        app.register_blueprint(consulta_bp, url_prefix='/api')
-
-        # Cria as tabelas do banco de dados se não existirem
-        db.create_all()
-
-        app.register_blueprint(pacientes_bp, url_prefix='/api')
-        app.register_blueprint(medicos_bp, url_prefix='/api')
-        app.register_blueprint(especialidades_bp, url_prefix='/api')
-        app.register_blueprint(consulta_bp, url_prefix='/api/consultas')
-
         db.create_all()
 
     # Serve dashboard static page at /dashboard
@@ -97,8 +78,6 @@ def create_app():
         return send_from_directory('static/dashboard', filename)
 
     # Serve built frontend (Vite) placed in app/static/app at the application root
-    import os
-
     @app.route('/')
     def index():
         return send_from_directory('static/app', 'index.html')
@@ -115,5 +94,25 @@ def create_app():
 
         # For SPA routes, return index.html so client-side routing works
         return send_from_directory('static/app', 'index.html')
+
+    @app.errorhandler(404)
+    def handle_not_found(error):
+        if request.path.startswith('/api'):
+            return jsonify({'error': 'Recurso não encontrado'}), 404
+        return error
+
+    @app.errorhandler(SQLAlchemyError)
+    def handle_database_error(error):
+        app.logger.exception('Erro ao acessar o banco de dados')
+        return jsonify({'error': 'Erro interno ao acessar o banco de dados'}), 500
+
+    @app.errorhandler(Exception)
+    def handle_unexpected_error(error):
+        if isinstance(error, HTTPException):
+            return error
+        app.logger.exception('Erro inesperado na aplicação')
+        if request.path.startswith('/api'):
+            return jsonify({'error': 'Erro interno do servidor'}), 500
+        return ('Erro interno do servidor', 500)
 
     return app
