@@ -27,7 +27,7 @@
     .controls{display:flex;gap:8px}
 
     /* Cards and tables */
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:20px}
     .card{background:#fff;padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,0.06);transition:transform .18s}
     .card:hover{transform:translateY(-6px)}
     table{width:100%;border-collapse:collapse;margin-top:12px}
@@ -91,7 +91,8 @@
       <section id="overview">
         <div class="grid">
           <div class="card"><strong id="countPacientes">0</strong><div style="color:#64748b">Pacientes</div></div>
-          <div class="card"><strong id="countMedicos">0</strong><div style="color:#64748b">Médicos</div></div>
+          <div class="card"><strong id="countMedicos">0</strong><div style="color:#64748b">Medicos</div></div>
+          <div class="card"><strong id="countEspecialidades">0</strong><div style="color:#64748b">Especialidades</div></div>
           <div class="card"><strong id="countConsultas">0</strong><div style="color:#64748b">Consultas</div></div>
         </div>
       </section>
@@ -118,7 +119,6 @@
     const API = '/api';
 
     // simple router for sections
-    const sections = ['overview','pacientes','medicos','especialidades','consultas'];
     const navButtons = document.querySelectorAll('.nav-btn');
     const sectionTitle = document.getElementById('sectionTitle');
     const contentArea = document.getElementById('contentArea');
@@ -144,14 +144,16 @@
     // Counts
     async function loadCounts(){
       try{
-        const [p,m,c] = await Promise.all([
+        const [p,m,e,c] = await Promise.all([
           fetch(`${API}/pacientes`).then(r=>r.json()),
           fetch(`${API}/medicos`).then(r=>r.json()),
+          fetch(`${API}/especialidades`).then(r=>r.json()),
           fetch(`${API}/consultas`).then(r=>r.json())
         ]);
-        document.getElementById('countPacientes').textContent = p.length;
-        document.getElementById('countMedicos').textContent = m.length;
-        document.getElementById('countConsultas').textContent = c.length;
+        document.getElementById('countPacientes').textContent = Array.isArray(p) ? p.length : 0;
+        document.getElementById('countMedicos').textContent = Array.isArray(m) ? m.length : 0;
+        document.getElementById('countEspecialidades').textContent = Array.isArray(e) ? e.length : 0;
+        document.getElementById('countConsultas').textContent = Array.isArray(c) ? c.length : 0;
       }catch(e){ console.error('Erro ao carregar counts',e); }
     }
 
@@ -165,55 +167,260 @@
     }
 
     // --- Pacientes ---
-    async function renderPacientes(){
-      const res = await fetch(`${API}/pacientes`); const data = await res.json();
+    async function renderPacientes(term=''){
+      const query = term ? `?q=${encodeURIComponent(term)}` : '';
+      const res = await fetch(`${API}/pacientes${query}`);
+      const data = res.status === 404 ? [] : await res.json();
       contentArea.innerHTML = `
         <div class="card">
-          <form class="inline" id="searchPaciente"><input placeholder="Buscar por nome/CPF" id="qPaciente"><button class="ghost" type="button" id="btnSearch">Buscar</button></form>
+          <form class="inline" id="searchPaciente">
+            <input placeholder="Buscar por nome/CPF" id="qPaciente" value="${term}">
+            <button class="ghost" type="submit">Buscar</button>
+            <button class="ghost" type="button" id="btnClear">Limpar</button>
+          </form>
         </div>
-        <div class="card"><table><thead><tr><th>ID</th><th>Nome</th><th>CPF</th><th>Tel</th><th>Ações</th></tr></thead><tbody id="pacBody"></tbody></table></div>
+        <div class="card"><table><thead><tr><th>ID</th><th>Nome</th><th>CPF</th><th>Tel</th><th>Acoes</th></tr></thead><tbody id="pacBody"></tbody></table></div>
       `;
-      const tbody = document.getElementById('pacBody'); tbody.innerHTML=''; data.forEach(p=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${p.id}</td><td>${p.nome}</td><td>${p.cpf}</td><td>${p.telefone||''}</td><td><button data-id="${p.id}" data-action="edit">Editar</button> <button data-id="${p.id}" data-action="del">Deletar</button></td>`; tbody.appendChild(tr); });
-      tbody.addEventListener('click', async (ev)=>{
-        const b = ev.target.closest('button'); if(!b) return; const id=b.dataset.id; if(b.dataset.action==='edit'){ openModalForEdit('pacientes', id); } else if(b.dataset.action==='del' && confirm('Deletar?')){ await fetch(`${API}/pacientes/${id}`,{method:'DELETE'}); renderPacientes(); loadCounts(); }
+      const tbody = document.getElementById('pacBody');
+      tbody.innerHTML='';
+      (Array.isArray(data)?data:[data]).filter(item=>item && item.id).forEach(p=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${p.id}</td><td>${p.nome}</td><td>${p.cpf}</td><td>${p.telefone||''}</td><td><button data-id="${p.id}" data-action="edit">Editar</button> <button data-id="${p.id}" data-action="del">Deletar</button></td>`;
+        tbody.appendChild(tr);
       });
+      tbody.addEventListener('click', async (ev)=>{
+        const b = ev.target.closest('button'); if(!b) return; const id=b.dataset.id; if(b.dataset.action==='edit'){ openModalForEdit('pacientes', id); } else if(b.dataset.action==='del' && confirm('Deletar?')){ await fetch(`${API}/pacientes/${id}`,{method:'DELETE'}); renderPacientes(term); loadCounts(); }
+      });
+      const form = document.getElementById('searchPaciente');
+      form.addEventListener('submit', (ev)=>{
+        ev.preventDefault();
+        const value = (document.getElementById('qPaciente').value || '').trim();
+        renderPacientes(value);
+      });
+      document.getElementById('btnClear').addEventListener('click', ()=>{ renderPacientes(''); });
     }
 
     // --- Medicos ---
     async function renderMedicos(){
-      const res = await fetch(`${API}/medicos`); const data = await res.json();
-      contentArea.innerHTML = `<div class="card"><table><thead><tr><th>ID</th><th>Nome</th><th>CRM</th><th>Esp</th><th>Ações</th></tr></thead><tbody id="medBody"></tbody></table></div>`;
-      const tbody = document.getElementById('medBody'); tbody.innerHTML=''; data.forEach(m=>{ const espName = m.especialidade?.nome || (m.especialidade_id?('#'+m.especialidade_id):'N/A'); const tr=document.createElement('tr'); tr.innerHTML=`<td>${m.id}</td><td>${m.nome}</td><td>${m.crm}</td><td>${espName}</td><td><button data-id="${m.id}" data-action="edit">Editar</button> <button data-id="${m.id}" data-action="del">Deletar</button></td>`; tbody.appendChild(tr); });
+      const [medicosRes, espRes] = await Promise.all([
+        fetch(`${API}/medicos`),
+        fetch(`${API}/especialidades`)
+      ]);
+      const data = await medicosRes.json();
+      const especialidades = await espRes.json();
+      const espMap = new Map((Array.isArray(especialidades)?especialidades:[]).map(e=>[e.id,e.nome]));
+
+      contentArea.innerHTML = `<div class="card"><table><thead><tr><th>ID</th><th>Nome</th><th>CRM</th><th>Especialidade</th><th>Acoes</th></tr></thead><tbody id="medBody"></tbody></table></div>`;
+      const tbody = document.getElementById('medBody');
+      tbody.innerHTML='';
+      (Array.isArray(data)?data:[data]).filter(item=>item && item.id).forEach(m=>{
+        const espName = espMap.get(m.especialidade_id) || `#${m.especialidade_id||'-'}`;
+        const tr=document.createElement('tr'); tr.innerHTML=`<td>${m.id}</td><td>${m.nome}</td><td>${m.crm}</td><td>${espName}</td><td><button data-id="${m.id}" data-action="edit">Editar</button> <button data-id="${m.id}" data-action="del">Deletar</button></td>`; tbody.appendChild(tr);
+      });
       tbody.addEventListener('click', async (ev)=>{ const b=ev.target.closest('button'); if(!b) return; const id=b.dataset.id; if(b.dataset.action==='edit'){ openModalForEdit('medicos', id); } else if(b.dataset.action==='del' && confirm('Deletar?')){ await fetch(`${API}/medicos/${id}`,{method:'DELETE'}); renderMedicos(); loadCounts(); } });
     }
 
     // --- Especialidades ---
-    async function renderEspecialidades(){ const res=await fetch(`${API}/especialidades`); const data=await res.json(); contentArea.innerHTML = `<div class="card"><table><thead><tr><th>ID</th><th>Nome</th><th>Ações</th></tr></thead><tbody id="espBody"></tbody></table></div>`; const tbody=document.getElementById('espBody'); tbody.innerHTML=''; data.forEach(e=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${e.id}</td><td>${e.nome}</td><td><button data-id="${e.id}" data-action="edit">Editar</button> <button data-id="${e.id}" data-action="del">Deletar</button></td>`; tbody.appendChild(tr); }); tbody.addEventListener('click', async (ev)=>{ const b=ev.target.closest('button'); if(!b) return; const id=b.dataset.id; if(b.dataset.action==='edit'){ openModalForEdit('especialidades', id); } else if(b.dataset.action==='del' && confirm('Deletar?')){ await fetch(`${API}/especialidades/${id}`,{method:'DELETE'}); renderEspecialidades(); loadCounts(); } }); }
+    async function renderEspecialidades(){
+      const res = await fetch(`${API}/especialidades`);
+      const data = await res.json();
+      contentArea.innerHTML = `<div class="card"><table><thead><tr><th>ID</th><th>Nome</th><th>Acoes</th></tr></thead><tbody id="espBody"></tbody></table></div>`;
+      const tbody = document.getElementById('espBody');
+      tbody.innerHTML='';
+      (Array.isArray(data)?data:[data]).filter(item=>item && item.id).forEach(e=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML=`<td>${e.id}</td><td>${e.nome}</td><td><button data-id="${e.id}" data-action="edit">Editar</button> <button data-id="${e.id}" data-action="del">Deletar</button></td>`;
+        tbody.appendChild(tr);
+      });
+      tbody.addEventListener('click', async (ev)=>{
+        const b = ev.target.closest('button');
+        if(!b) return;
+        const id = b.dataset.id;
+        if(b.dataset.action==='edit'){
+          openModalForEdit('especialidades', id);
+        } else if(b.dataset.action==='del' && confirm('Deletar?')){
+          await fetch(`${API}/especialidades/${id}`,{method:'DELETE'});
+          renderEspecialidades();
+          loadCounts();
+        }
+      });
+    }
 
     // --- Consultas ---
-    async function renderConsultas(){ const res=await fetch(`${API}/consultas`); const data=await res.json(); contentArea.innerHTML = `<div class="card"><table><thead><tr><th>ID</th><th>Paciente</th><th>Médico</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead><tbody id="consBody"></tbody></table></div>`; const tbody=document.getElementById('consBody'); tbody.innerHTML=''; data.forEach(c=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${c.id}</td><td>${c.paciente_id}</td><td>${c.medico_id}</td><td>${c.data_agendamento}</td><td>${c.status}</td><td><button data-id="${c.id}" data-action="edit">Editar</button> <button data-id="${c.id}" data-action="del">Deletar</button></td>`; tbody.appendChild(tr); }); tbody.addEventListener('click', async (ev)=>{ const b=ev.target.closest('button'); if(!b) return; const id=b.dataset.id; if(b.dataset.action==='edit'){ openModalForEdit('consultas', id); } else if(b.dataset.action==='del' && confirm('Deletar?')){ await fetch(`${API}/consultas/${id}`,{method:'DELETE'}); renderConsultas(); loadCounts(); } }); }
+    async function renderConsultas(){
+      const [consRes, pacRes, medRes] = await Promise.all([
+        fetch(`${API}/consultas`),
+        fetch(`${API}/pacientes`),
+        fetch(`${API}/medicos`)
+      ]);
+      const data = await consRes.json();
+      const pacientes = await pacRes.json();
+      const medicos = await medRes.json();
+      const pacMap = new Map((Array.isArray(pacientes)?pacientes:[pacientes]).filter(Boolean).map(p=>[p.id,p.nome]));
+      const medMap = new Map((Array.isArray(medicos)?medicos:[medicos]).filter(Boolean).map(m=>[m.id,m.nome]));
+
+      contentArea.innerHTML = `<div class="card"><table><thead><tr><th>ID</th><th>Paciente</th><th>Medico</th><th>Data</th><th>Status</th><th>Acoes</th></tr></thead><tbody id="consBody"></tbody></table></div>`;
+      const tbody=document.getElementById('consBody');
+      tbody.innerHTML='';
+      (Array.isArray(data)?data:[data]).filter(item=>item && item.id).forEach(c=>{
+        const dataFmt = c.data_agendamento ? new Date(c.data_agendamento).toLocaleString('pt-BR') : '';
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${c.id}</td><td>${pacMap.get(c.paciente_id)||'#'+c.paciente_id}</td><td>${medMap.get(c.medico_id)||'#'+c.medico_id}</td><td>${dataFmt}</td><td>${c.status}</td><td><button data-id="${c.id}" data-action="edit">Editar</button> <button data-id="${c.id}" data-action="del">Deletar</button></td>`;
+        tbody.appendChild(tr);
+      });
+      tbody.addEventListener('click', async (ev)=>{
+        const b = ev.target.closest('button');
+        if(!b) return;
+        const id = b.dataset.id;
+        if(b.dataset.action==='edit'){
+          openModalForEdit('consultas', id);
+        } else if(b.dataset.action==='del' && confirm('Deletar?')){
+          await fetch(`${API}/consultas/${id}`,{method:'DELETE'});
+          renderConsultas();
+          loadCounts();
+        }
+      });
+    }
 
     // Modal helpers
-    async function openModalForCreate(section){ modalTitle.textContent = 'Criar ' + section; modalBody.innerHTML = formFor(section); modal.classList.add('show'); }
-    async function openModalForEdit(section,id){ modalTitle.textContent = 'Editar ' + section; const res=await fetch(`${API}/${section}/${id}`); const data=await res.json(); modalBody.innerHTML = formFor(section,data); modal.classList.add('show'); }
+    async function openModalForCreate(section){
+      modalTitle.textContent = 'Criar ' + section;
+      modalBody.innerHTML = formFor(section);
+      modal.classList.add('show');
+      attachModalEnhancements(section);
+    }
+
+    async function openModalForEdit(section,id){
+      modalTitle.textContent = 'Editar ' + section;
+      const res = await fetch(`${API}/${section}/${id}`);
+      const data = await res.json();
+      modalBody.innerHTML = formFor(section,data);
+      modal.classList.add('show');
+      attachModalEnhancements(section);
+    }
     function formFor(section,data={}){
       if(section==='pacientes') return `<div><label>Nome</label><input id="f_nome" value="${data.nome||''}"></div><div><label>CPF</label><input id="f_cpf" value="${data.cpf||''}"></div><div><label>Telefone</label><input id="f_tel" value="${data.telefone||''}"></div><input type="hidden" id="f_id" value="${data.id||''}">`;
-      if(section==='medicos') return `<div><label>Nome</label><input id="f_nome" value="${data.nome||''}"></div><div><label>CRM</label><input id="f_crm" value="${data.crm||''}"></div><div><label>Especialidade ID</label><input id="f_esp" value="${data.especialidade_id||''}"></div><input type="hidden" id="f_id" value="${data.id||''}">`;
-      if(section==='especialidades') return `<div><label>Nome</label><input id="f_nome" value="${data.nome||''}"></div><input type="hidden" id="f_id" value="${data.id||''}">`;
-  if(section==='consultas') return `<div><label>Paciente ID</label><input id="f_pac" value="${data.paciente_id||''}"></div><div><label>Ou buscar por CPF</label><div style="display:flex;gap:8px;margin-top:6px"><input id="f_pac_cpf" placeholder="CPF (somente números)" value=""><button class="ghost" type="button" id="btnBuscarCpf">Buscar</button><div id="pacienteEncontrado" style="margin-left:8px;color:#0f172a"></div></div></div><div><label>Médico ID</label><input id="f_med" value="${data.medico_id||''}"></div><div><label>Data</label><input id="f_data" type="datetime-local" value="${data.data_agendamento||''}" required></div><div><label>Status</label><input id="f_status" value="${data.status||'agendada'}"></div><input type="hidden" id="f_id" value="${data.id||''}">`;
+      if(section==='medicos') return `<div><label>Nome</label><input id="f_nome" value="${data.nome||''}"></div><div><label>CRM</label><input id="f_crm" value="${data.crm||''}"></div><div><label>Especialidade</label><select id="f_esp" data-selected="${data.especialidade_id||''}"></select></div><input type="hidden" id="f_id" value="${data.id||''}">`;
+      if(section==='especialidades') return `<div><label>Nome</label><input id="f_nome" value="${data.nome||''}"></div><div><label>Descricao</label><input id="f_desc" value="${data.descricao||''}"></div><input type="hidden" id="f_id" value="${data.id||''}">`;
+    if(section==='consultas') return `<div><label>Paciente</label><select id="f_pac" data-selected="${data.paciente_id||''}"></select></div><div><label>Ou buscar por CPF</label><div style="display:flex;gap:8px;margin-top:6px"><input id="f_pac_cpf" placeholder="CPF (somente numeros)" value=""><button class="ghost" type="button" id="btnBuscarCpf">Buscar</button><div id="pacienteEncontrado" style="margin-left:8px;color:#0f172a"></div></div></div><div><label>Medico</label><select id="f_med" data-selected="${data.medico_id||''}"></select></div><div><label>Data</label><input id="f_data" type="datetime-local" value="${data.data_agendamento||''}" required></div><div><label>Status</label><input id="f_status" value="${data.status||'agendada'}"></div><input type="hidden" id="f_id" value="${data.id||''}">`;
       return '';
     }
 
+    function attachModalEnhancements(section){
+      if(section==='medicos'){
+        const select = document.getElementById('f_esp');
+        if(select){
+          const selected = select.getAttribute('data-selected') || '';
+          fetch(`${API}/especialidades`).then(r=>r.json()).then(list=>{
+            select.innerHTML = '<option value="">Selecione...</option>' + (Array.isArray(list)?list:[]).map(e=>`<option value="${e.id}">${e.nome}</option>`).join('');
+            if(selected){ select.value = String(selected); }
+          });
+        }
+      }
+      if(section==='consultas'){
+        const pacSelect = document.getElementById('f_pac');
+        const medSelect = document.getElementById('f_med');
+        const pacSelected = pacSelect ? pacSelect.getAttribute('data-selected') || '' : '';
+        const medSelected = medSelect ? medSelect.getAttribute('data-selected') || '' : '';
+        Promise.all([
+          fetch(`${API}/pacientes`).then(r=>r.json()),
+          fetch(`${API}/medicos`).then(r=>r.json())
+        ]).then(([pacientes, medicos])=>{
+          if(pacSelect){
+            pacSelect.innerHTML = '<option value="">Selecione...</option>' + (Array.isArray(pacientes)?pacientes:[]).map(p=>`<option value="${p.id}">${p.nome} (CPF ${p.cpf})</option>`).join('');
+            if(pacSelected){ pacSelect.value = String(pacSelected); }
+          }
+          if(medSelect){
+            medSelect.innerHTML = '<option value="">Selecione...</option>' + (Array.isArray(medicos)?medicos:[]).map(m=>`<option value="${m.id}">${m.nome} (CRM ${m.crm})</option>`).join('');
+            if(medSelected){ medSelect.value = String(medSelected); }
+          }
+        });
+
+        const btnBuscar = document.getElementById('btnBuscarCpf');
+        if(btnBuscar){
+          btnBuscar.addEventListener('click', async ()=>{
+            const cpfInput = document.getElementById('f_pac_cpf');
+            const feedback = document.getElementById('pacienteEncontrado');
+            const cpf = (cpfInput.value || '').replace(/\D/g,'');
+            if(!cpf){ feedback.textContent = 'Informe um CPF.'; return; }
+            try{
+              const res = await fetch(`${API}/pacientes?cpf=${cpf}`);
+              if(res.ok){
+                const paciente = await res.json();
+                if(pacSelect){ pacSelect.value = String(paciente.id); }
+                feedback.textContent = `Paciente selecionado: ${paciente.nome} (#${paciente.id})`;
+              } else {
+                feedback.textContent = 'Paciente nao encontrado';
+              }
+            }catch(err){
+              feedback.textContent = 'Erro ao buscar CPF';
+            }
+          });
+        }
+      }
+    }
+
     // minimal validation and submission
-    async function submitModal(){ const sec = currentSection; const id = document.getElementById('f_id').value; try{
-      let body={};
-      if(sec==='pacientes'){ body={nome:document.getElementById('f_nome').value, cpf:document.getElementById('f_cpf').value, telefone:document.getElementById('f_tel').value}; }
-      if(sec==='medicos'){ body={nome:document.getElementById('f_nome').value, crm:document.getElementById('f_crm').value, especialidade_id:parseInt(document.getElementById('f_esp').value||0)} }
-      if(sec==='especialidades'){ body={nome:document.getElementById('f_nome').value} }
-  if(sec==='consultas'){ const pac = document.getElementById('f_pac').value; const med = document.getElementById('f_med').value; const dataVal = document.getElementById('f_data').value; if(!pac||!med||!dataVal){ alert('Preencha paciente, médico e data (calendário).'); return; } body={paciente_id:parseInt(pac||0), medico_id:parseInt(med||0), data_agendamento:dataVal, status:document.getElementById('f_status').value} }
-      if(id){ await fetch(`${API}/${sec}/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); } else { await fetch(`${API}/${sec}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); }
-      modal.classList.remove('show'); renderSection(sec); loadCounts();
-    }catch(e){ console.error(e); alert('Erro'); }
+    async function submitModal(){
+      const sec = currentSection;
+      const id = document.getElementById('f_id').value;
+      try{
+        let body={};
+        if(sec==='pacientes'){
+          body={
+            nome:document.getElementById('f_nome').value,
+            cpf:document.getElementById('f_cpf').value,
+            telefone:document.getElementById('f_tel').value
+          };
+        }
+        if(sec==='medicos'){
+          body={
+            nome:document.getElementById('f_nome').value,
+            crm:document.getElementById('f_crm').value,
+            especialidade_id:parseInt(document.getElementById('f_esp').value||'0',10)
+          };
+        }
+        if(sec==='especialidades'){
+          body={
+            nome:document.getElementById('f_nome').value,
+            descricao:document.getElementById('f_desc').value
+          };
+        }
+        if(sec==='consultas'){
+          const pac = document.getElementById('f_pac').value;
+          const med = document.getElementById('f_med').value;
+          const dataVal = document.getElementById('f_data').value;
+          if(!pac||!med||!dataVal){
+            alert('Preencha paciente, medico e data (calendario).');
+            return;
+          }
+          body={
+            paciente_id:parseInt(pac||'0',10),
+            medico_id:parseInt(med||'0',10),
+            data_agendamento:dataVal,
+            status:document.getElementById('f_status').value
+          };
+        }
+        if(id){
+          await fetch(`${API}/${sec}/${id}`,{
+            method:'PUT',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(body)
+          });
+        } else {
+          await fetch(`${API}/${sec}`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(body)
+          });
+        }
+        modal.classList.remove('show');
+        renderSection(sec);
+        loadCounts();
+      }catch(e){
+        console.error(e);
+        alert('Erro');
+      }
     }
 
     // init
