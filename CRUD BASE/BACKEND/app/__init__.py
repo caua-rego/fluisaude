@@ -1,7 +1,9 @@
 from flask import Flask
-from flask import send_from_directory
+from flask import send_from_directory, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from sqlalchemy.exc import SQLAlchemyError
+import logging
 
 db = SQLAlchemy()
 
@@ -12,6 +14,25 @@ def create_app():
     CORS(app)
 
     db.init_app(app)
+
+    # Basic logging configuration for the app
+    logging.basicConfig(level=logging.INFO)
+
+    # Central error handlers: convert ValueError -> 400 and SQLAlchemy errors -> 500
+    @app.errorhandler(ValueError)
+    def handle_value_error(err):
+        app.logger.debug('ValueError handled: %s', err)
+        return jsonify({'error': str(err)}), 400
+
+    @app.errorhandler(SQLAlchemyError)
+    def handle_db_error(err):
+        # ensure any open transaction is rolled back
+        try:
+            db.session.rollback()
+        except Exception:
+            app.logger.exception('Error rolling back session')
+        app.logger.exception('Database error')
+        return jsonify({'error': 'Internal database error'}), 500
 
     with app.app_context():
         from .routes.pacientes import pacientes_bp
