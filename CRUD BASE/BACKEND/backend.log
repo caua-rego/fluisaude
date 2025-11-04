@@ -1,0 +1,369 @@
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.178:5001
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [31/Oct/2025 02:00:04] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:04] "GET /assets/index-CJkT6NWR.js HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:04] "GET /assets/index-CQuU7jrb.css HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:05] "GET /assets/icon-3-CkT5mDIT.png HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:05] "GET /assets/icon-6-zXcWQgkK.png HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:05] "GET /assets/icon-5-75tlBlBD.png HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:05] "GET /assets/icon-1-BH_mWIjl.png HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:05] "GET /assets/icon-4-D3Yr_7NO.png HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:05] "GET /assets/icon-2-DpfcYcfB.png HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:05] "GET /assets/icon-7-BgComSlx.png HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:05] "GET /assets/icon-8-DKlzF9Df.png HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:07] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:07] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:07] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:07] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:12] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:13] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:14] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:16] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:38] "[36mGET /dashboard HTTP/1.1[0m" 304 -
+127.0.0.1 - - [31/Oct/2025 02:00:38] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:38] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:38] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:49] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:55] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:56] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:00:57] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:00] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:00] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:00] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:00] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:01] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:01] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:01] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:01] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:10] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:24] "[35m[1mPOST /api/especialidades HTTP/1.1[0m" 201 -
+127.0.0.1 - - [31/Oct/2025 02:01:24] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:24] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:24] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:24] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:27] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:01:34] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:02:00] "[35m[1mPOST /api/pacientes HTTP/1.1[0m" 201 -
+127.0.0.1 - - [31/Oct/2025 02:02:00] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:02:00] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:02:00] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:02:00] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:02:08] "GET /api/medicos HTTP/1.1" 200 -
+[2025-10-31 02:03:02,650] ERROR in app: Exception on /api/medicos [POST]
+Traceback (most recent call last):
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: medicos.especialidade_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask_cors/extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/app/routes/medicos.py", line 16, in create_medico
+    db.session.commit()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: medicos.especialidade_id
+[SQL: INSERT INTO medicos (nome, crm, especialidade_id) VALUES (?, ?, ?)]
+[parameters: ('Dr. Vieira', '123456', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+127.0.0.1 - - [31/Oct/2025 02:03:02] "[35m[1mPOST /api/medicos HTTP/1.1[0m" 500 -
+127.0.0.1 - - [31/Oct/2025 02:03:02] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:02] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:02] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:02] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:05] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:05] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:05] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:05] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:09] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:11] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:21] "[35m[1mPOST /api/medicos HTTP/1.1[0m" 201 -
+127.0.0.1 - - [31/Oct/2025 02:03:21] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:21] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:21] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:21] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:27] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:28] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:35] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:36] "GET /api/consultas HTTP/1.1" 200 -
+[2025-10-31 02:03:50,383] ERROR in app: Exception on /api/consultas [POST]
+Traceback (most recent call last):
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1815, in _execute_context
+    context = constructor(
+        dialect, self, conn, execution_options, *args, **kw
+    )
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 1493, in _init_compiled
+    flattened_processors[key](compiled_params[key])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/dialects/sqlite/base.py", line 1207, in process
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: SQLite DateTime type only accepts Python datetime and date objects as input.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask_cors/extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/app/routes/consultas.py", line 16, in create_consulta
+    db.session.commit()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1821, in _execute_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str(statement), parameters, None, None
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1815, in _execute_context
+    context = constructor(
+        dialect, self, conn, execution_options, *args, **kw
+    )
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 1493, in _init_compiled
+    flattened_processors[key](compiled_params[key])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cauarego/Documents/fluisaude/CRUD BASE/BACKEND/.venv/lib/python3.13/site-packages/sqlalchemy/dialects/sqlite/base.py", line 1207, in process
+    raise TypeError(
+    ...<2 lines>...
+    )
+sqlalchemy.exc.StatementError: (builtins.TypeError) SQLite DateTime type only accepts Python datetime and date objects as input.
+[SQL: INSERT INTO consultas (paciente_id, medico_id, data_agendamento, status) VALUES (?, ?, ?, ?)]
+[parameters: [{'medico_id': 1, 'data_agendamento': '02/12/2007', 'paciente_id': 1}]]
+127.0.0.1 - - [31/Oct/2025 02:03:50] "[35m[1mPOST /api/consultas HTTP/1.1[0m" 500 -
+127.0.0.1 - - [31/Oct/2025 02:03:50] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:50] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:50] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:50] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:52] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:52] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:52] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:52] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:55] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:57] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:57] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:58] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:03:59] "GET /api/consultas HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:04:06] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:04:06] "GET /api/medicos HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:04:07] "GET /api/especialidades HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:08:26] "GET /api/pacientes HTTP/1.1" 200 -
+127.0.0.1 - - [31/Oct/2025 02:08:28] "GET /favicon.ico HTTP/1.1" 200 -
