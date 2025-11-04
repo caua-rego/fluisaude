@@ -72,7 +72,13 @@ const HeroSection = () => {
         >
           <Button
             size="lg"
-            onClick={() => { /* open backend-served dashboard on the same origin */ window.location.href = '/dashboard'; }}
+            onClick={() => {
+              const { protocol, hostname, port } = window.location;
+              const backendPort = import.meta.env.VITE_BACKEND_PORT || '5001';
+              const sameOrigin = !port || port === backendPort;
+              const origin = sameOrigin ? window.location.origin : `${protocol}//${hostname}:${backendPort}`;
+              window.location.href = `${origin}/dashboard`;
+            }}
             className="group relative overflow-hidden bg-gradient-to-r from-accent to-primary text-white font-semibold px-8 py-6 text-lg rounded-2xl shadow-glow hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             <span className="relative z-10 flex items-center gap-2">
