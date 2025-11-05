@@ -32,15 +32,21 @@ def get_medico_by_id(medico_id: int):
     return Medico.query.get_or_404(medico_id)
 
 
+def update_medico(medico_id: int, data: dict) -> Medico :  
+    medico  =   get_medico_by_id(medico_id)
+    payload  = data or {}
+    medico.nome  = payload.get("nome",medico.nome)
+    medico_crm = payload.get("crm",medico.crm)
+    if "especialidade_id" in payload:
+        medico.especialidade_id = payload["especialidade_id"]
+    _commit_session()
+    return medico
+    
 
-
-
-
-
-
-
-
-
+def delete_medico(medico_id: int) -> None:
+    medico = get_medico_by_id(medico_id)
+    db.session.delete(medico)
+    _commit_session()
 
 def _commit_session():
     try:
