@@ -53,12 +53,10 @@ def create_app():
 
     # Registra os blueprints da API
     from .routes.pacientes import pacientes_bp
-    from .routes.medicos import medicos_bp
     from .routes.especialidades import especialidades_bp
     from .routes.consultas import consulta_bp
 
     app.register_blueprint(pacientes_bp, url_prefix='/api')
-    app.register_blueprint(medicos_bp, url_prefix='/api')
     app.register_blueprint(especialidades_bp, url_prefix='/api')
     app.register_blueprint(consulta_bp, url_prefix='/api/consultas')
 
