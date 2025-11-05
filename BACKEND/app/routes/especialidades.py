@@ -21,7 +21,7 @@ def create_especialidade():
 @especialidades_bp.route('/especialidades', methods=['GET'])
 def get_especialidades():
     especialidades = list_especialidades()
-    return jsonify([especialidade.to_json() for especialidade in especialidades]), 200
+    return jsonify([especialidade.to_json() for especialidade in especialidades])
 
 @especialidades_bp.route('/especialidades/<int:id>', methods=['GET'])
 def get_especialidade(id: int):
