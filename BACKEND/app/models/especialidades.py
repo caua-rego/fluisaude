@@ -7,7 +7,7 @@ class Especialidade(db.Model):
     descricao = db.Column(db.String(500), nullable=True)
     medicos = db.relationship('Medico', backref='especialidade', lazy=True)
 
-    def to_dict(self):
+    def to_json(self):
         return {
             'id': self.id,
             'nome': self.nome,
