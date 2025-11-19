@@ -5,7 +5,7 @@ from app.controllers import pacientes_controller
 pacientes_bp = Blueprint("pacientes", __name__)
 
 
-@pacientes_bp.route("/pacientes", methods=["GET"])
+@pacientes_bp.route("/", methods=["GET"])
 def get_pacientes():
     cpf = request.args.get("cpf")
     term = request.args.get("q")
@@ -24,13 +24,13 @@ def get_pacientes():
     return jsonify([paciente.to_json() for paciente in pacientes])
 
 
-@pacientes_bp.route("/pacientes/<int:paciente_id>", methods=["GET"])
+@pacientes_bp.route("/<int:paciente_id>", methods=["GET"])
 def get_paciente(paciente_id: int):
     paciente = pacientes_controller.get_paciente_by_id(paciente_id)
-    return jsonify(paciente.to_json())
+    return jsonify(paciente.to_json()), 200
 
 
-@pacientes_bp.route("/pacientes", methods=["POST"])
+@pacientes_bp.route("/", methods=["POST"])
 def create_paciente():
     data = request.get_json() or {}
     try:
@@ -40,14 +40,14 @@ def create_paciente():
     return jsonify(paciente.to_json()), 201
 
 
-@pacientes_bp.route("/pacientes/<int:paciente_id>", methods=["PUT"])
+@pacientes_bp.route("/<int:paciente_id>", methods=["PUT"])
 def update_paciente(paciente_id: int):
     data = request.get_json() or {}
     paciente = pacientes_controller.update_paciente(paciente_id, data)
     return jsonify(paciente.to_json())
 
 
-@pacientes_bp.route("/pacientes/<int:paciente_id>", methods=["DELETE"])
+@pacientes_bp.route("/<int:paciente_id>", methods=["DELETE"])
 def delete_paciente(paciente_id: int):
     pacientes_controller.delete_paciente(paciente_id)
     return "", 204
