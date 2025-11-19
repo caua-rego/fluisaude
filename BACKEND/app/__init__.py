@@ -78,9 +78,14 @@ def create_app():
         return send_from_directory('static/dashboard', filename)
 
     # Serve built frontend (Vite) placed in app/static/app at the application root
+    # NOTE: Serve only the shipped static dashboard and do NOT serve the
+    # React build placed in `static/app`. This ensures the backend will not
+    # expose or proxy the React app; root redirects to the dashboard.
+    from flask import redirect
+
     @app.route('/')
     def index():
-        return send_from_directory('static/app', 'index.html')
+        return redirect('/dashboard')
 
     @app.route('/<path:filename>')
     def app_static(filename):
@@ -88,12 +93,13 @@ def create_app():
         if filename.startswith('api/'):
             return ('', 404)
 
-        static_path = os.path.join(app.root_path, 'static', 'app', filename)
-        if os.path.exists(static_path):
-            return send_from_directory('static/app', filename)
+        # Only allow serving files from the dashboard static folder. Do NOT
+        # serve files from `static/app` (React). Any other path returns 404.
+        dashboard_path = os.path.join(app.root_path, 'static', 'dashboard', filename)
+        if os.path.exists(dashboard_path):
+            return send_from_directory('static/dashboard', filename)
 
-        # For SPA routes, return index.html so client-side routing works
-        return send_from_directory('static/app', 'index.html')
+        return ('', 404)
 
     @app.errorhandler(404)
     def handle_not_found(error):
