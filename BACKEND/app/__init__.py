@@ -55,10 +55,12 @@ def create_app():
     from .routes.pacientes import pacientes_bp
     from .routes.especialidades import especialidades_bp
     from .routes.consultas import consulta_bp
+    from .routes.medico import medico_bp
 
-    app.register_blueprint(pacientes_bp, url_prefix='/api')
-    app.register_blueprint(especialidades_bp, url_prefix='/api')
+    app.register_blueprint(pacientes_bp, url_prefix='/api/pacientes')
+    app.register_blueprint(especialidades_bp, url_prefix='/api/especialidades')
     app.register_blueprint(consulta_bp, url_prefix='/api/consultas')
+    app.register_blueprint(medico_bp, url_prefix='/api/medicos')
 
     # As tabelas são criadas sob demanda para ambientes sem migrações
     with app.app_context():
