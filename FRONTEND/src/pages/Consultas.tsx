@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import TableSimple from '../components/dashboard/TableSimple'
 import { normalizeSearchValue } from '../lib/utils'
 import { createConsulta, deleteConsulta, listConsultas, listMedicos, listPacientes, updateConsulta, type Consulta as ConsultaDto, type Medico, type Paciente } from '../services/api'
@@ -11,11 +11,13 @@ export default function Consultas() {
   const [medicos, setMedicos] = useState<Medico[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [editing, setEditing] = useState<ConsultaDto | null>(null)
   const [deletingId, setDeletingId] = useState<number | null>(null)
   const [filterTerm, setFilterTerm] = useState('')
+  const formRef = useRef<HTMLFormElement | null>(null)
 
   useEffect(() => {
     void bootstrap()
@@ -37,6 +39,8 @@ export default function Consultas() {
   }
 
   function openModal(row?: ConsultaRow) {
+    setError(null)
+    setSuccessMessage(null)
     if (row) {
       const found = consultas.find((consulta) => consulta.id === row.id)
       setEditing(found ?? null)
@@ -50,7 +54,11 @@ export default function Consultas() {
     event.preventDefault()
     if (isSaving) return
 
-    const form = new FormData(event.currentTarget)
+    const formElement = formRef.current
+    if (!formElement) {
+      return
+    }
+    const form = new FormData(formElement)
     const pacienteId = Number(form.get('paciente_id'))
     const medicoId = Number(form.get('medico_id'))
     const dataAgendamentoRaw = String(form.get('data_agendamento') || '')
@@ -66,17 +74,25 @@ export default function Consultas() {
     try {
       setIsSaving(true)
       setError(null)
+      setSuccessMessage(null)
       if (editing) {
         await updateConsulta(editing.id, { paciente_id: pacienteId, medico_id: medicoId, data_agendamento: isoDate, status })
       } else {
         await createConsulta({ paciente_id: pacienteId, medico_id: medicoId, data_agendamento: isoDate, status })
       }
-      event.currentTarget.reset()
+      formElement.reset()
       setEditing(null)
       setIsModalOpen(false)
+      const pacienteNome = pacientes.find((p) => p.id === pacienteId)?.nome ?? `Paciente #${pacienteId}`
+      const medicoNome = medicos.find((m) => m.id === medicoId)?.nome ?? `Médico #${medicoId}`
+      const successText = editing ? `Consulta #${editing.id} atualizada com sucesso.` : `Consulta criada com sucesso para ${pacienteNome} com ${medicoNome}.`
+      setSuccessMessage(successText)
+      setError(null)
       await bootstrap()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Não foi possível salvar a consulta')
+      const fallback = editing ? 'Não foi possível atualizar a consulta.' : 'Não foi possível criar a consulta.'
+      setError(err instanceof Error ? err.message : fallback)
+      setSuccessMessage(null)
     } finally {
       setIsSaving(false)
     }
@@ -89,9 +105,12 @@ export default function Consultas() {
     try {
       setDeletingId(row.id)
       await deleteConsulta(row.id)
+      setSuccessMessage(`Consulta #${row.id} excluída com sucesso.`)
+      setError(null)
       await bootstrap()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Não foi possível excluir a consulta')
+      setError(err instanceof Error ? err.message : 'Não foi possível excluir a consulta.')
+      setSuccessMessage(null)
     } finally {
       setDeletingId(null)
     }
@@ -138,6 +157,7 @@ export default function Consultas() {
       </div>
 
       {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
+      {successMessage && !error && <p className="mb-4 text-sm text-green-600">{successMessage}</p>}
 
       <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <label className="text-sm font-medium text-gray-600" htmlFor="consultas-filter">Filtrar localmente</label>
@@ -172,7 +192,7 @@ export default function Consultas() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl p-6 w-full max-w-2xl">
             <h3 className="text-lg font-semibold mb-4">{editing ? 'Editar consulta' : 'Nova consulta'}</h3>
-            <form onSubmit={handleSubmit} className="space-y-4" key={editing ? editing.id : 'new-consulta'}>
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4" key={editing ? editing.id : 'new-consulta'}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="consulta-paciente">Paciente</label>

@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import TableSimple from '../components/dashboard/TableSimple'
 import { normalizeSearchValue } from '../lib/utils'
 import { createMedico, deleteMedico, listEspecialidades, listMedicos, updateMedico, type Medico as MedicoDto, type Especialidade } from '../services/api'
@@ -12,9 +12,11 @@ export default function Medicos() {
   const [editing, setEditing] = useState<MedicoDto | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
   const [deletingId, setDeletingId] = useState<number | null>(null)
   const [filterTerm, setFilterTerm] = useState('')
+  const formRef = useRef<HTMLFormElement | null>(null)
 
   useEffect(() => {
     void bootstrap()
@@ -50,7 +52,11 @@ export default function Medicos() {
       return
     }
 
-    const form = new FormData(event.currentTarget)
+    const formElement = formRef.current
+    if (!formElement) {
+      return
+    }
+    const form = new FormData(formElement)
     const nome = String(form.get('nome') || '').trim()
     const crm = String(form.get('crm') || '').trim()
     const especialidadeId = Number(form.get('especialidade_id'))
@@ -63,17 +69,23 @@ export default function Medicos() {
     try {
       setIsSaving(true)
       setError(null)
+      setSuccessMessage(null)
       if (editing) {
         await updateMedico(editing.id, { nome, crm, especialidade_id: especialidadeId })
       } else {
         await createMedico({ nome, crm, especialidade_id: especialidadeId })
       }
-      event.currentTarget.reset()
+      formElement.reset()
       setEditing(null)
       setOpen(false)
+      const actionLabel = editing ? 'atualizado' : 'criado'
+      setSuccessMessage(`Médico ${nome} ${actionLabel} com sucesso.`)
+      setError(null)
       await bootstrap()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Não foi possível salvar o médico')
+      const fallback = editing ? 'Não foi possível atualizar o médico.' : 'Não foi possível criar o médico.'
+      setError(err instanceof Error ? err.message : fallback)
+      setSuccessMessage(null)
     } finally {
       setIsSaving(false)
     }
@@ -86,15 +98,20 @@ export default function Medicos() {
     try {
       setDeletingId(row.id)
       await deleteMedico(row.id)
+      setSuccessMessage(`Médico ${row.nome} excluído com sucesso.`)
+      setError(null)
       await bootstrap()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Não foi possível excluir o médico')
+      setError(err instanceof Error ? err.message : 'Não foi possível excluir o médico.')
+      setSuccessMessage(null)
     } finally {
       setDeletingId(null)
     }
   }
 
   function openModal(target?: MedicoRow) {
+    setError(null)
+    setSuccessMessage(null)
     if (target) {
       const found = medicos.find((m) => m.id === target.id)
       setEditing(found ?? null)
@@ -133,6 +150,7 @@ export default function Medicos() {
       </div>
 
       {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
+      {successMessage && !error && <p className="mb-4 text-sm text-green-600">{successMessage}</p>}
 
       <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <label className="text-sm font-medium text-gray-600" htmlFor="medicos-filter">Filtrar localmente</label>
@@ -167,7 +185,7 @@ export default function Medicos() {
         <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold mb-4">{isEditing ? 'Editar' : 'Criar'} Médico</h3>
-            <form onSubmit={handleSubmit} id="medico-form" key={editing ? editing.id : 'new'}>
+            <form ref={formRef} onSubmit={handleSubmit} id="medico-form" key={editing ? editing.id : 'new'}>
               <div className="space-y-3">
                 <input name="nome" defaultValue={editing?.nome ?? ''} placeholder="Nome" className="w-full px-3 py-2 border rounded-lg" />
                 <input name="crm" defaultValue={editing?.crm ?? ''} placeholder="CRM" className="w-full px-3 py-2 border rounded-lg" />

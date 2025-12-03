@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import TableSimple from '../components/dashboard/TableSimple'
 import { normalizeSearchValue } from '../lib/utils'
 import { createPaciente, deletePaciente, listPacientes, updatePaciente, type Paciente } from '../services/api'
@@ -21,11 +21,13 @@ export default function Pacientes() {
   const [pacientes, setPacientes] = useState<Paciente[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [editing, setEditing] = useState<Paciente | null>(null)
   const [deletingId, setDeletingId] = useState<number | null>(null)
   const [filterTerm, setFilterTerm] = useState('')
+  const formRef = useRef<HTMLFormElement | null>(null)
 
   useEffect(() => {
     void bootstrap()
@@ -48,7 +50,11 @@ export default function Pacientes() {
     event.preventDefault()
     if (isSaving) return
 
-    const form = new FormData(event.currentTarget)
+    const formElement = formRef.current
+    if (!formElement) {
+      return
+    }
+    const form = new FormData(formElement)
     const nome = String(form.get('nome') || '').trim()
     const cpf = String(form.get('cpf') || '').trim()
     const telefone = String(form.get('telefone') || '').trim()
@@ -63,17 +69,23 @@ export default function Pacientes() {
     try {
       setIsSaving(true)
       setError(null)
+      setSuccessMessage(null)
       if (editing) {
         await updatePaciente(editing.id, { nome, cpf, telefone: telefone || undefined, endereco: endereco || undefined, data_nascimento: data_nascimento || undefined })
       } else {
         await createPaciente({ nome, cpf, telefone: telefone || undefined, endereco: endereco || undefined, data_nascimento: data_nascimento || undefined })
       }
-      event.currentTarget.reset()
+      formElement.reset()
       setEditing(null)
       setIsModalOpen(false)
+      const actionLabel = editing ? 'atualizado' : 'criado'
+      setSuccessMessage(`Paciente ${nome} ${actionLabel} com sucesso.`)
+      setError(null)
       await bootstrap()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Não foi possível salvar o paciente')
+      const fallback = editing ? 'Não foi possível atualizar o paciente.' : 'Não foi possível criar o paciente.'
+      setError(err instanceof Error ? err.message : fallback)
+      setSuccessMessage(null)
     } finally {
       setIsSaving(false)
     }
@@ -86,15 +98,20 @@ export default function Pacientes() {
     try {
       setDeletingId(row.id)
       await deletePaciente(row.id)
+      setSuccessMessage(`Paciente ${row.nome} excluído com sucesso.`)
+      setError(null)
       await bootstrap()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Não foi possível excluir o paciente')
+      setError(err instanceof Error ? err.message : 'Não foi possível excluir o paciente.')
+      setSuccessMessage(null)
     } finally {
       setDeletingId(null)
     }
   }
 
   function openModal(target?: PacienteRow) {
+    setError(null)
+    setSuccessMessage(null)
     if (target) {
       const found = pacientes.find((p) => p.id === target.id)
       setEditing(found ?? null)
@@ -146,6 +163,7 @@ export default function Pacientes() {
       </div>
 
       {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
+      {successMessage && !error && <p className="mb-4 text-sm text-green-600">{successMessage}</p>}
 
       <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <label className="text-sm font-medium text-gray-600" htmlFor="pacientes-filter">Filtrar localmente</label>
@@ -180,7 +198,7 @@ export default function Pacientes() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl p-6 w-full max-w-lg">
             <h3 className="text-lg font-semibold mb-4">{editing ? 'Editar paciente' : 'Novo paciente'}</h3>
-            <form onSubmit={handleSubmit} className="space-y-4" key={editing ? editing.id : 'new-paciente'}>
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4" key={editing ? editing.id : 'new-paciente'}>
               <div>
                 <label className="block text-sm font-medium mb-1" htmlFor="paciente-nome">Nome</label>
                 <input id="paciente-nome" name="nome" defaultValue={editing?.nome ?? ''} className="w-full px-3 py-2 border rounded-lg" placeholder="Nome completo" />

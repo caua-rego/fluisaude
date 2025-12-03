@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { normalizeSearchValue } from '../lib/utils'
 import { createEspecialidade, deleteEspecialidade, listEspecialidades, updateEspecialidade, type Especialidade as EspecialidadeDto } from '../services/api'
 
@@ -6,11 +6,13 @@ export default function Especialidades() {
   const [especialidades, setEspecialidades] = useState<EspecialidadeDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [deletingId, setDeletingId] = useState<number | null>(null)
   const [editing, setEditing] = useState<EspecialidadeDto | null>(null)
   const [filterTerm, setFilterTerm] = useState('')
+  const formRef = useRef<HTMLFormElement | null>(null)
 
   useEffect(() => {
     void bootstrap()
@@ -33,7 +35,11 @@ export default function Especialidades() {
     event.preventDefault()
     if (isSaving) return
 
-    const form = new FormData(event.currentTarget)
+    const formElement = formRef.current
+    if (!formElement) {
+      return
+    }
+    const form = new FormData(formElement)
     const nome = String(form.get('nome') || '').trim()
     const descricao = String(form.get('descricao') || '').trim()
 
@@ -45,23 +51,30 @@ export default function Especialidades() {
     try {
       setIsSaving(true)
       setError(null)
+      setSuccessMessage(null)
       if (editing) {
         await updateEspecialidade(editing.id, { nome, descricao: descricao || undefined })
       } else {
         await createEspecialidade({ nome, descricao: descricao || undefined })
       }
-      event.currentTarget.reset()
+      formElement.reset()
       setEditing(null)
       setIsModalOpen(false)
+      const actionLabel = editing ? 'atualizada' : 'criada'
+      setSuccessMessage(`Especialidade ${nome} ${actionLabel} com sucesso.`)
+      setError(null)
       await bootstrap()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Não foi possível salvar a especialidade')
+      const fallback = editing ? 'Não foi possível atualizar a especialidade.' : 'Não foi possível criar a especialidade.'
+      setError(err instanceof Error ? err.message : fallback)
+      setSuccessMessage(null)
     } finally {
       setIsSaving(false)
     }
   }
 
-  async function handleDelete(id: number) {
+  async function handleDelete(target: EspecialidadeDto) {
+    const id = target.id
     if (deletingId) return
     const confirmed = window.confirm('Remover esta especialidade?')
     if (!confirmed) return
@@ -69,9 +82,13 @@ export default function Especialidades() {
     try {
       setDeletingId(id)
       await deleteEspecialidade(id)
+      setSuccessMessage(`Especialidade ${target.nome} excluída com sucesso.`)
+      setError(null)
       await bootstrap()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Não foi possível remover a especialidade')
+      const fallback = 'Não foi possível excluir a especialidade.'
+      setError(err instanceof Error ? err.message : fallback)
+      setSuccessMessage(null)
     } finally {
       setDeletingId(null)
     }
@@ -79,6 +96,8 @@ export default function Especialidades() {
 
   function openModal(target?: EspecialidadeDto) {
     setEditing(target ?? null)
+    setError(null)
+    setSuccessMessage(null)
     setIsModalOpen(true)
   }
 
@@ -109,6 +128,7 @@ export default function Especialidades() {
       </div>
 
       {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
+      {successMessage && !error && <p className="mb-4 text-sm text-green-600">{successMessage}</p>}
 
       <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <label className="text-sm font-medium text-gray-600" htmlFor="especialidades-filter">Filtrar localmente</label>
@@ -141,7 +161,7 @@ export default function Especialidades() {
                   <td className="px-4 py-3 text-right space-x-3">
                     <button onClick={() => openModal(item)} className="text-blue-600 hover:underline">Editar</button>
                     <button
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => handleDelete(item)}
                       disabled={deletingId === item.id}
                       className="text-sm text-red-600 disabled:opacity-50"
                     >
@@ -161,7 +181,7 @@ export default function Especialidades() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold mb-4">{editing ? 'Editar especialidade' : 'Nova especialidade'}</h3>
-            <form onSubmit={handleSubmit} className="space-y-4" key={editing ? editing.id : 'new-especialidade'}>
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4" key={editing ? editing.id : 'new-especialidade'}>
               <div>
                 <label className="block text-sm font-medium mb-1" htmlFor="especialidade-nome">
                   Nome

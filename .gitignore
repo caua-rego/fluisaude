@@ -45,3 +45,6 @@ pnpm-debug.log*
 # Editor / OS specific
 .vscode/
 .idea/
+
+# Gemini artifacts
+gemini/
