@@ -1,225 +1,457 @@
 # FluiSaúde
 
-## Descrição do Projeto
+<div align="center">
+**Sistema de Gerenciamento para Unidades Básicas de Saúde**
 
-O **FluiSaúde** é um sistema de gerenciamento para Unidades Básicas de Saúde (UBS), desenvolvido como parte de um desafio acadêmico. O objetivo é otimizar e facilitar o agendamento de consultas e o gerenciamento de informações, melhorando o fluxo de atendimento e a organização da unidade.
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Prazo de Entrega
+</div>
 
--   **Data:** 29/10/2025
+## Índice
 
-## Desafio Escolhido
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Objetivos](#objetivos)
+- [Equipe](#equipe)
+- [Funcionalidades](#funcionalidades)
+- [Stack Tecnológico](#stack-tecnológico)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Como Executar](#como-executar)
+- [Documentação da API](#documentação-da-api)
+- [Padrões de Código](#padrões-de-código)
+- [Troubleshooting](#troubleshooting)
+- [Roadmap](#roadmap)
+- [Licença](#licença)
 
--   **Tema:** UBS - Unidade Básica de Saúde
+## Sobre o Projeto
 
-## Componentes do Grupo
-````markdown
-# FluiSaúde
+O **FluiSaúde** é um sistema completo de gerenciamento para Unidades Básicas de Saúde (UBS), desenvolvido como parte de um desafio acadêmico. A plataforma foi projetada para otimizar e facilitar o agendamento de consultas e o gerenciamento de informações, melhorando significativamente o fluxo de atendimento e a organização da unidade.
 
-## Descrição do Projeto
+### Motivação
 
-O **FluiSaúde** é um sistema de gerenciamento para Unidades Básicas de Saúde (UBS), desenvolvido como parte de um desafio acadêmico. O objetivo é otimizar e facilitar o agendamento de consultas e o gerenciamento de informações, melhorando o fluxo de atendimento e a organização da unidade.
+Unidades Básicas de Saúde enfrentam diariamente o desafio de gerenciar grande volume de pacientes, consultas e profissionais de saúde. Processos manuais e sistemas desatualizados geram:
+- Filas desnecessárias
+- Agendamentos ineficientes
+- Dificuldade na gestão de informações
+- Falta de integração entre diferentes setores
 
-## Prazo de Entrega
+O FluiSaúde surge como solução moderna e integrada para estes problemas.
 
--   **Data:** 29/10/2025
+## Objetivos
 
-## Desafio Escolhido
+- [X] **Otimizar** o fluxo de agendamento de consultas
+- [X] **Digitalizar** o gerenciamento de pacientes e profissionais
+- [X] **Facilitar** o acesso a informações em tempo real
+- [X] **Reduzir** o tempo de espera dos pacientes
+- [X] **Melhorar** a organização dos recursos da UBS
 
--   **Tema:** UBS - Unidade Básica de Saúde
+## Equipe
 
-## Componentes do Grupo
+| Nome | Função | Responsabilidade |
+|------|--------|------------------|
+| **Cauã Rego Tavares Leite Duarte** | Líder do Grupo | Coordenação geral e CRUD de Médicos |
+| Matheus Rodrigues Laré | Desenvolvedor | CRUD de Especialidades |
+| Guilherme Alves | Desenvolvedor | CRUD de Consultas |
+| Fernando Andrade | Desenvolvedor | CRUD de Pacientes |
+| João Pedro Cavalcanti de Souza | Desenvolvedor | CRUD de Consultas |
+| Gabriel Brito Ferreira Dias | Desenvolvedor | CRUD de Médicos |
+| Luis Felipe Farias Nunes | Desenvolvedor | CRUD de Especialidades |
+| Renato Santos Chong | Desenvolvedor | CRUD de Pacientes |
 
--   Cauã Rego Tavares Leite Duarte
--   Matheus Rodrigues Laré
--   Guilherme Alves
--   Fernando Andrade
--   João Pedro Cavalcanti de Souza
--   Gabriel Brito Ferreira Dias
--   Luis Felipe Farias Nunes
--   Renato Santos Chong
+## Funcionalidades
 
-### Líder do Grupo
+O sistema oferece um conjunto completo de funcionalidades para gestão de UBS:
 
--   Cauã Rego Tavares Leite Duarte
+### CRUDs Implementados
 
-## Repositório do Projeto
+1. **Gestão de Pacientes**
+   - Cadastro completo com dados pessoais
+   - Busca por CPF ou nome
+   - Histórico de consultas
+   - Atualização de informações
 
-O código-fonte e o acompanhamento do desenvolvimento estão disponíveis no GitHub:
-[github.com/caua-rego/fluisaude](https://github.com/caua-rego/fluisaude)
+2. **Gestão de Médicos**
+   - Cadastro com especialidades
+   - Agenda disponível
+   - Status de disponibilidade
+   - Vinculação com especialidades
 
----
+3. **Gestão de Consultas**
+   - Agendamento inteligente
+   - Confirmação automática
+   - Cancelamento com reagendamento
+   - Histórico completo
 
-## Tecnologias Utilizadas (Backend)
+4. **Gestão de Especialidades**
+   - Cadastro de especialidades médicas
+   - Associação com médicos
+   - Configuração de duração padrão
 
-O backend do projeto será desenvolvido com as seguintes tecnologias:
+### Funcionalidades Adicionais
 
--   **Python:** Linguagem de programação principal para toda a lógica de negócio e construção do servidor.
--   **Flask:** Um micro-framework web para Python, utilizado para construir a API RESTful que servirá os dados para o cliente.
--   **SQLALCHEMY:** Um banco de dados relacional leve e baseado em arquivo, utilizado para o armazenamento e gerenciamento dos dados da aplicação.
+- **Dashboard Administrativo**: Visualização em tempo real
+- **Notificações**: Lembretes de consultas
+- **Relatórios**: Estatísticas e métricas
+- **Busca Avançada**: Filtros múltiplos
+- **Interface Responsiva**: Acesso em qualquer dispositivo
 
----
+## Stack Tecnológico
 
-## Funcionalidades (CRUDs)
+### Backend
+<div align="center">
 
-O escopo inicial do projeto prevê a implementação de 4 operações de CRUD (Create, Read, Update, Delete) para as seguintes entidades do sistema:
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-313131?style=for-the-badge&logo=sqlalchemy&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 
-1.  **CRUD de Pacientes:** Gerenciamento completo dos dados dos pacientes. (Renato Santos Chong; Fernando Andrade)
-2.  **CRUD de Médicos:** Gerenciamento de profissionais de saúde e suas especialidades. (Gabriel Brito; Cauã Rêgo)
-3.  **CRUD de Consultas:** Agendamento, visualização, atualização e cancelamento de consultas. (Gui Alves; João Pedro)
-4.  **CRUD de Especialidades:** Cadastro e gerenciamento das especialidades médicas disponíveis. (Matheus Larré; Luís Nunes)
+</div>
 
-## Como rodar o projeto integrado (backend + frontend)
+- **Python 3.11+**: Linguagem principal para lógica de negócio
+- **Flask**: Micro-framework web para construção da API RESTful
+- **SQLAlchemy**: ORM para manipulação do banco de dados
+- **SQLite**: Banco de dados relacional leve para desenvolvimento
 
-Se você quer servir o frontend junto com o backend (mesmo servidor), siga estes passos rápidos:
+### Frontend
+<div align="center">
 
-1. Construa o frontend (na pasta `FRONTEND`):
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+</div>
+
+- **React 18**: Biblioteca para construção de interfaces
+- **TypeScript**: Tipagem estática para maior robustez
+- **Vite**: Build tool rápido e moderno
+- **TailwindCSS**: Framework CSS para estilização
+
+## Estrutura do Projeto
+
+```
+fluisaude/
+├── BACKEND/                 # API Flask
+│   ├── app/
+│   │   ├── models/         # Modelos de dados
+│   │   ├── routes/         # Rotas da API
+│   │   ├── services/       # Lógica de negócio
+│   │   ├── static/         # Arquivos estáticos
+│   │   └── templates/      # Templates HTML
+│   ├── instance/           # Banco de dados SQLite
+│   ├── requirements.txt    # Dependências Python
+│   └── run.py             # Ponto de entrada
+├── FRONTEND/               # Aplicação React
+│   ├── src/
+│   │   ├── components/     # Componentes React
+│   │   ├── pages/         # Páginas da aplicação
+│   │   ├── services/      # Comunicação com API
+│   │   └── utils/         # Utilitários
+│   ├── public/            # Arquivos públicos
+│   ├── package.json       # Dependências Node.js
+│   └── vite.config.ts     # Configuração do Vite
+├── docs/                  # Documentação
+└── README.md             # Este arquivo
+```
+
+## Como Executar
+
+### Pré-requisitos
+
+- **Python 3.11+**
+- **Node.js 18+**
+- **npm 9+**
+- **Git**
+
+### 1. Clone o Repositório
 
 ```bash
+git clone https://github.com/caua-rego/fluisaude.git
+cd fluisaude
+```
+
+### 2. Configuração do Backend
+
+```bash
+# Acesse a pasta do backend
+cd BACKEND
+
+# Crie e ative o ambiente virtual
+python3 -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+# ou
+.venv\Scripts\activate     # Windows
+
+# Instale as dependências
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# Inicie o servidor
+python run.py
+```
+
+O backend estará disponível em `http://localhost:5001`
+
+### 3. Configuração do Frontend
+
+```bash
+# Abra um novo terminal
+cd FRONTEND
+
+# Instale as dependências
+npm install
+
+# Execute em modo de desenvolvimento
+npm run dev
+```
+
+O frontend estará disponível em `http://localhost:5173`
+
+### 4. Execução Integrada (Recomendado)
+
+Para rodar frontend e backend no mesmo servidor:
+
+```bash
+# 1. Build do frontend
 cd FRONTEND
 npm install
 npm run build
-```
 
-2. Copie os arquivos gerados (`dist/`) para o backend (exemplo):
+# 2. Copie para o backend
+mkdir -p ../BACKEND/app/static/app
+cp -r dist/* ../BACKEND/app/static/app/
 
-```bash
-mkdir -p "CRUD BASE/BACKEND/app/static/app"
-rsync -a --delete FRONTEND/dist/ "CRUD BASE/BACKEND/app/static/app/"
-```
-
-3. Inicie o backend (use o virtualenv):
-
-```bash
-cd "CRUD BASE/BACKEND"
-python3 -m venv .venv
+# 3. Inicie o backend
+cd ../BACKEND
 source .venv/bin/activate
-pip install -r requirements.txt
-python run.py  # por padrão o projeto usa 5001 para evitar conflitos locais
+python run.py
 ```
 
-4. Abra `http://localhost:5001/` para ver o frontend servido pelo Flask. O dashboard simples também está disponível em `/dashboard`.
+Acesse `http://localhost:5001/` para ver a aplicação completa.
 
-Observação: o cliente já foi atualizado para usar chamadas relativas à API (`/api`) para que o build funcione quando servido pelo mesmo host.
+## Documentação da API
 
----
+### Base URL
+```
+http://localhost:5001/api
+```
 
-## Padrões de Código (Python)
+### Autenticação
+Atualmente, a API não utiliza autenticação, mas está planejada para implementação futura.
 
-### Nomenclatura de Classes: `PascalCase`
+### Endpoints Principais
 
-Para manter a consistência e a legibilidade do código, adotamos o padrão **PascalCase** para a nomeação de classes em Python.
+#### Pacientes
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/pacientes/` | Lista todos os pacientes |
+| POST | `/pacientes/` | Cria um novo paciente |
+| GET | `/pacientes/<id>` | Busca paciente por ID |
+| PUT | `/pacientes/<id>` | Atualiza dados do paciente |
+| DELETE | `/pacientes/<id>` | Remove paciente |
 
-**O que é PascalCase?**
-PascalCase (também conhecido como UpperCamelCase) é uma convenção de nomenclatura onde a primeira letra de cada palavra em um nome composto é capitalizada, sem espaços ou pontuações.
+**Exemplo de criação:**
+```bash
+curl -X POST http://localhost:5001/api/pacientes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nome": "João Silva",
+    "cpf": "12345678901",
+    "telefone": "(11)99999-9999",
+    "email": "joao@email.com",
+    "data_nascimento": "1990-01-01"
+  }'
+```
 
-**Aplicação:**
-Todas as classes declaradas no projeto devem seguir este padrão.
+#### Médicos
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/medicos/` | Lista todos os médicos |
+| POST | `/medicos/` | Cadastra novo médico |
+| GET | `/medicos/<id>` | Busca médico por ID |
+| PUT | `/medicos/<id>` | Atualiza dados do médico |
+| DELETE | `/medicos/<id>` | Remove médico |
 
--   **Exemplos:** `PacienteModel`, `ConsultaController`, `AgendamentoService`.
+#### Consultas
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/consultas/` | Lista todas as consultas |
+| POST | `/consultas/` | Agenda nova consulta |
+| GET | `/consultas/<id>` | Busca consulta por ID |
+| PUT | `/consultas/<id>` | Atualiza consulta |
+| DELETE | `/consultas/<id>` | Cancela consulta |
+
+**Exemplo de agendamento:**
+```bash
+curl -X POST http://localhost:5001/api/consultas \
+  -H "Content-Type: application/json" \
+  -d '{
+    "paciente_id": 1,
+    "medico_id": 1,
+    "data_agendamento": "2025-12-15T14:30:00",
+    "status": "agendada"
+  }'
+```
+
+#### Especialidades
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/especialidades/` | Lista especialidades |
+| POST | `/especialidades/` | Cria especialidade |
+| GET | `/especialidades/<id>` | Busca por ID |
+| PUT | `/especialidades/<id>` | Atualiza especialidade |
+| DELETE | `/especialidades/<id>` | Remove especialidade |
+
+## Padrões de Código
+
+### Python Backend
+
+#### Nomenclatura de Classes: PascalCase
+
+Adotamos o padrão **PascalCase** para manter consistência e legibilidade:
 
 ```python
-# Correto - Usando PascalCase para o nome da classe
+# Correto
 class PacienteController:
     def __init__(self, nome, cpf):
         self.nome = nome
         self.cpf = cpf
 
     def salvar_paciente(self):
-        # Lógica para salvar o paciente
+        # Lógica para salvar
         pass
 
 # Incorreto
 class paciente_controller:
-    def __init__(self, nome, cpf):
-        pass
+    pass
+```
 
-````
+#### Convenções Adotadas
 
----
+- **Variáveis e funções**: `snake_case`
+- **Constantes**: `UPPER_SNAKE_CASE`
+- **Privados**: prefixo `_` (ex: `_metodo_privado`)
+- **Métodos especiais**: dunder methods (ex: `__init__`)
 
-### Seção técnica (comandos, variáveis, formatos e debugging)
+### TypeScript Frontend
 
-Essas instruções são complementares ao conteúdo já existente. Elas foram adicionadas para ajudar desenvolvedores a rodar e integrar os componentes localmente.
+#### Componentes React
 
-Prerequisitos
-- Python 3.11+ recomendado
-- Node.js 18+ e npm 9+
+```typescript
+// Correto
+interface PacienteProps {
+  paciente: Paciente;
+  onEdit: (id: number) => void;
+}
 
-Ambientes (venv) e instalação de dependências
+const PacienteCard: React.FC<PacienteProps> = ({ paciente, onEdit }) => {
+  return (
+    <div className="card">
+      <h3>{paciente.nome}</h3>
+    </div>
+  );
+};
+
+export default PacienteCard;
+```
+
+## Troubleshooting
+
+### Problemas Comuns
+
+#### 1. Porta em Uso
 ```bash
-# Exemplo no diretório do backend funcional (CRUD BASE/BACKEND)
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+# Verifique qual processo está usando a porta
+lsof -iTCP:5001 -sTCP:LISTEN -n -P
 
-# Frontend (na pasta FRONTEND)
+# Encerre o processo
+kill -9 <PID>
+```
+
+#### 2. Erro de Módulo Python
+```bash
+# Verifique se está no ambiente virtual
+which python
+
+# Reinstale as dependências
+pip install -r requirements.txt
+```
+
+#### 3. Erro de Build no Frontend
+```bash
+# Limpe o cache do npm
+npm cache clean --force
+
+# Delete node_modules e reinstale
+rm -rf node_modules
 npm install
 ```
 
-Variáveis de ambiente úteis
-- FLASK_APP=run.py (ou main.py)
-- FLASK_ENV=development
-- FLASK_RUN_PORT=5001
-- DATABASE_URL (para produção, ex.: postgres)
-- SECRET_KEY (substituir a chave padrão em produção)
-
-Exemplos de execução
+#### 4. Banco de Dados Não Encontrado
 ```bash
-# rodar o backend de referência (CRUD BASE)
-cd "CRUD BASE/BACKEND"
-source .venv/bin/activate
-python run.py
+# Verifique se a pasta instance existe
+mkdir -p instance/
 
-# rodar o frontend em dev
-cd FRONTEND
-npm run dev
+# Verifique permissões
+chmod 755 instance/
 ```
 
-API — formatos e exemplos
-- Os endpoints estão sob `/api` (ex.: `/api/pacientes`). Use JSON e `Content-Type: application/json` para POST/PUT.
-- `cpf` é uma string de 11 dígitos (apenas números). Ex.: `"12345678901"`.
-- `data_agendamento`: `YYYY-MM-DDTHH:MM` ou ISO-8601 com segundos.
+### Logs de Depuração
 
-### Endpoints principais do backend
+Ative o modo debug do Flask:
 
-| Recurso | Método | Caminho | Observações |
-| --- | --- | --- | --- |
-| Pacientes | GET | `/api/pacientes/` | Suporta filtros `?cpf=` e `?q=` para buscar por CPF ou termo parcial. |
-| Pacientes | POST | `/api/pacientes/` | Cria paciente (`nome` e `cpf` obrigatórios). |
-| Pacientes | GET/PUT/DELETE | `/api/pacientes/<id>` | Consulta, atualiza ou remove um paciente específico. |
-| Médicos | GET/POST | `/api/medicos/` | Lista ou cria médicos (exige `especialidade_id`). |
-| Médicos | GET/PUT/DELETE | `/api/medicos/<id>` | Opera sobre um médico específico. |
-| Especialidades | GET/POST | `/api/especialidades/` | Lista ou cria especialidades; nomes são únicos. |
-| Especialidades | GET/PUT/DELETE | `/api/especialidades/<id>` | CRUD completo para cada especialidade. |
-| Consultas | GET/POST | `/api/consultas/` | Lista e cria consultas (`paciente_id`, `medico_id`, `data_agendamento`). |
-| Consultas | PUT/DELETE | `/api/consultas/<id>` | Atualiza status/horário ou remove a consulta. |
-
-Curl rápidos
-```bash
-# criar paciente
-curl -X POST http://127.0.0.1:5001/api/pacientes \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"Fulano","cpf":"12345678901","telefone":"(11)99999-9999"}'
-
-# criar consulta
-curl -X POST http://127.0.0.1:5001/api/consultas \
-  -H "Content-Type: application/json" \
-  -d '{"paciente_id":1,"medico_id":1,"data_agendamento":"2025-10-31T14:30"}'
+```python
+# Em run.py
+app.run(debug=True, port=5001)
 ```
 
-Resolução de problemas comuns
-- `ModuleNotFoundError: No module named 'flask'`: ative seu venv e rode `pip install -r requirements.txt`.
-- `Port 5001 is in use`: identifique o processo com `lsof -iTCP:5001 -sTCP:LISTEN -n -P` e encerre o PID.
-- Banco SQLite ausente: confirme que a pasta `instance/` existe e tem permissão de escrita.
+## Roadmap
 
-Integração frontend/backend (modo single-server)
-1. No `FRONTEND`: `npm run build`
-2. Copiar `dist/` para `CRUD BASE/BACKEND/app/static/app/`
-3. Rodar `python run.py` em `CRUD BASE/BACKEND` e abrir `http://127.0.0.1:5001/`
+### Versão 1.0 (Atual)
+- [X] CRUDs básicos
+- [X] API RESTful
+- [X] Frontend React
+- [X] Dashboard simples
 
-Melhorias recomendadas
-- Adicionar Dockerfile + docker-compose para padronizar execução em dev/CI.
-- Adicionar Flask-Migrate para migrações de banco.
-- Criar testes automatizados (pytest) para rotas principais e modelos.
+### Versão 1.1 (Planejado)
+- [ ] Autenticação JWT
+- [ ] Perfis de usuário (admin, médico, paciente)
+- [ ] Envio de emails de confirmação
+- [ ] Relatórios PDF
+
+### Versão 2.0 (Futuro)
+- [ ] Aplicativo mobile (React Native)
+- [ ] Integração com sistemas de saúde públicos
+- [ ] Telemedicina
+- [ ] Prontuário eletrônico completo
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## Contribuições
+
+Contribuições são bem-vindas! Por favor:
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/NovaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona NovaFeature'`)
+4. Push para a branch (`git push origin feature/NovaFeature`)
+5. Abra um Pull Request
+
+## Contato
+
+- **Líder do Projeto**: Cauã Rego - crtld@cesar.school
+- **Repositório**: [github.com/caua-rego/fluisaude](https://github.com/caua-rego/fluisaude)
+
+---
+
+<div align="center">
+  <p style="font-size: 1.1em; color: #666;">
+    <strong>Projeto desenvolvido pela equipe FluiSaúde</strong><br>
+    <span style="color: #888;">Fundamentos de Programação - CESAR School 2025.2</span><br>
+    <span style="color: #999; font-style: italic;">Orientação: Profª. Aêda Monalliza Cunha de Sousa</span>
+  </p>
+</div>
