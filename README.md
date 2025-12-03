@@ -1,7 +1,6 @@
 # FluiSaúde
 
 <div align="center">
-**Sistema de Gerenciamento para Unidades Básicas de Saúde**
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com)
