@@ -1,0 +1,11 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FluiSaude favicon">
+  <defs>
+    <linearGradient id="drop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1c9ef5" />
+      <stop offset="100%" stop-color="#0b64d4" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#f0f7ff" />
+  <path d="M32 8c7.8 9.5 15 18.5 15 27.2C47 44 40.6 52 32 52s-15-8-15-16.8C17 26.5 24.2 17.5 32 8z" fill="url(#drop)" />
+  <path d="M24 40c2.2 3.5 5.5 5.5 8 5.5 2.5 0 5.8-2 8-5.5" stroke="#e7f4ff" stroke-width="3" stroke-linecap="round" fill="none" />
+</svg>

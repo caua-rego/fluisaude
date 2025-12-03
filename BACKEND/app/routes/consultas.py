@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..controllers.consulta_controller import ConsultaController # type: ignore
+from ..controllers.consulta_controller import ConsultaController
 
 consulta_bp = Blueprint("consultas", __name__)
 

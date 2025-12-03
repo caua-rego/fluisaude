@@ -182,6 +182,20 @@ API — formatos e exemplos
 - `cpf` é uma string de 11 dígitos (apenas números). Ex.: `"12345678901"`.
 - `data_agendamento`: `YYYY-MM-DDTHH:MM` ou ISO-8601 com segundos.
 
+### Endpoints principais do backend
+
+| Recurso | Método | Caminho | Observações |
+| --- | --- | --- | --- |
+| Pacientes | GET | `/api/pacientes/` | Suporta filtros `?cpf=` e `?q=` para buscar por CPF ou termo parcial. |
+| Pacientes | POST | `/api/pacientes/` | Cria paciente (`nome` e `cpf` obrigatórios). |
+| Pacientes | GET/PUT/DELETE | `/api/pacientes/<id>` | Consulta, atualiza ou remove um paciente específico. |
+| Médicos | GET/POST | `/api/medicos/` | Lista ou cria médicos (exige `especialidade_id`). |
+| Médicos | GET/PUT/DELETE | `/api/medicos/<id>` | Opera sobre um médico específico. |
+| Especialidades | GET/POST | `/api/especialidades/` | Lista ou cria especialidades; nomes são únicos. |
+| Especialidades | GET/PUT/DELETE | `/api/especialidades/<id>` | CRUD completo para cada especialidade. |
+| Consultas | GET/POST | `/api/consultas/` | Lista e cria consultas (`paciente_id`, `medico_id`, `data_agendamento`). |
+| Consultas | PUT/DELETE | `/api/consultas/<id>` | Atualiza status/horário ou remove a consulta. |
+
 Curl rápidos
 ```bash
 # criar paciente

@@ -1,39 +1,204 @@
-import axios from 'axios';
+const FALLBACK_API_URL = 'http://127.0.0.1:5001/api'
 
-// Use relative base so the built frontend can be served from the same origin as the Flask API
-const API_URL = '/api';
+const DEFAULT_API_URL =
+  typeof window !== 'undefined' && window.location?.origin
+    ? `${window.location.origin.replace(/\/$/, '')}/api`
+    : FALLBACK_API_URL
 
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const API_BASE_URL = (import.meta.env?.VITE_API_BASE_URL ?? DEFAULT_API_URL).replace(/\/$/, '')
 
-// Funções para Pacientes
-export const getPacientes = () => api.get('/pacientes');
-export const getPacienteById = (id: number) => api.get(`/pacientes/${id}`);
-export const createPaciente = (paciente: any) => api.post('/pacientes', paciente);
-export const updatePaciente = (id: number, paciente: any) => api.put(`/pacientes/${id}`, paciente);
-export const deletePaciente = (id: number) => api.delete(`/pacientes/${id}`);
+export type Paciente = {
+  id: number
+  nome: string
+  cpf: string
+  data_nascimento: string | null
+  telefone?: string | null
+  endereco?: string | null
+}
 
-// Funções para Médicos
-export const getMedicos = () => api.get('/medicos');
-export const getMedicoById = (id: number) => api.get(`/medicos/${id}`);
-export const createMedico = (medico: any) => api.post('/medicos', medico);
-export const updateMedico = (id: number, medico: any) => api.put(`/medicos/${id}`, medico);
-export const deleteMedico = (id: number) => api.delete(`/medicos/${id}`);
+export type PacientePayload = {
+  nome: string
+  cpf: string
+  telefone?: string
+  endereco?: string
+  data_nascimento?: string
+}
 
-// Funções para Especialidades
-export const getEspecialidades = () => api.get('/especialidades');
-export const getEspecialidadeById = (id: number) => api.get(`/especialidades/${id}`);
-export const createEspecialidade = (especialidade: any) => api.post('/especialidades', especialidade);
-export const updateEspecialidade = (id: number, especialidade: any) => api.put(`/especialidades/${id}`, especialidade);
-export const deleteEspecialidade = (id: number) => api.delete(`/especialidades/${id}`);
+export type Medico = {
+  id: number
+  nome: string
+  crm: string
+  especialidade_id: number
+}
 
-// Funções para Consultas
-export const getConsultas = () => api.get('/consultas');
-export const getConsultaById = (id: number) => api.get(`/consultas/${id}`);
-export const createConsulta = (consulta: any) => api.post('/consultas', consulta);
-export const updateConsulta = (id: number, consulta: any) => api.put(`/consultas/${id}`, consulta);
-export const deleteConsulta = (id: number) => api.delete(`/consultas/${id}`);
+export type MedicoPayload = {
+  nome: string
+  crm: string
+  especialidade_id: number
+}
+
+export type Especialidade = {
+  id: number
+  nome: string
+  descricao?: string | null
+}
+
+export type EspecialidadePayload = {
+  nome: string
+  descricao?: string
+}
+
+export type Consulta = {
+  id: number
+  paciente_id: number
+  medico_id: number
+  data_agendamento: string
+  status: string
+}
+
+export type ConsultaPayload = {
+  paciente_id: number
+  medico_id: number
+  data_agendamento: string
+  status?: string
+}
+
+type RequestConfig = RequestInit & { skipJson?: boolean }
+
+async function request<TResponse>(path: string, config: RequestConfig = {}): Promise<TResponse> {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  const url = `${API_BASE_URL}${normalizedPath}`
+
+  const headers = new Headers(config.headers)
+  if (!headers.has('Content-Type') && config.body) {
+    headers.set('Content-Type', 'application/json')
+  }
+
+  const response = await fetch(url, {
+    ...config,
+    headers,
+  })
+
+  if (!response.ok) {
+    const fallback = `Erro ${response.status}`
+    let detail = fallback
+    try {
+      const data = await response.json()
+      detail = typeof data?.error === 'string' ? data.error : fallback
+    } catch {
+      detail = fallback
+    }
+    const error = new Error(detail)
+    throw error
+  }
+
+  if (config.skipJson || response.status === 204) {
+    return undefined as TResponse
+  }
+
+  return (await response.json()) as TResponse
+}
+
+export function listPacientes() {
+  return request<Paciente[]>('/pacientes/')
+}
+
+export function createPaciente(payload: PacientePayload) {
+  return request<Paciente>('/pacientes/', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export function updatePaciente(id: number, payload: Partial<PacientePayload>) {
+  return request<Paciente>(`/pacientes/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
+}
+
+export function deletePaciente(id: number) {
+  return request<void>(`/pacientes/${id}`, {
+    method: 'DELETE',
+    skipJson: true,
+  })
+}
+
+export function listMedicos() {
+  return request<Medico[]>('/medicos/')
+}
+
+export function getMedico(id: number) {
+  return request<Medico>(`/medicos/${id}`)
+}
+
+export function createMedico(payload: MedicoPayload) {
+  return request<Medico>('/medicos/', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export function updateMedico(id: number, payload: Partial<MedicoPayload>) {
+  return request<Medico>(`/medicos/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
+}
+
+export function deleteMedico(id: number) {
+  return request<void>(`/medicos/${id}`, {
+    method: 'DELETE',
+    skipJson: true,
+  })
+}
+
+export function listEspecialidades() {
+  return request<Especialidade[]>('/especialidades/')
+}
+
+export function createEspecialidade(payload: EspecialidadePayload) {
+  return request<Especialidade>('/especialidades/', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export function updateEspecialidade(id: number, payload: Partial<EspecialidadePayload>) {
+  return request<Especialidade>(`/especialidades/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
+}
+
+export function deleteEspecialidade(id: number) {
+  return request<void>(`/especialidades/${id}`, {
+    method: 'DELETE',
+    skipJson: true,
+  })
+}
+
+export function listConsultas() {
+  return request<Consulta[]>('/consultas/')
+}
+
+export function createConsulta(payload: ConsultaPayload) {
+  return request<Consulta>('/consultas/', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export function updateConsulta(id: number, payload: Partial<ConsultaPayload>) {
+  return request<Consulta>(`/consultas/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
+}
+
+export function deleteConsulta(id: number) {
+  return request<void>(`/consultas/${id}`, {
+    method: 'DELETE',
+    skipJson: true,
+  })
+}

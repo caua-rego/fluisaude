@@ -1,4 +1,3 @@
-"""Backward compatible entrypoint for configuration imports."""
-from database import Config, DevelopmentConfig, ProductionConfig  # noqa: F401
+from database import Config, DevelopmentConfig, ProductionConfig
 
 __all__ = ["Config", "DevelopmentConfig", "ProductionConfig"]

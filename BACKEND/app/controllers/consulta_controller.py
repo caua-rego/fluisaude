@@ -1,5 +1,5 @@
 from ..models.consulta import Consulta
-from .. import db # type: ignore
+from .. import db
 from datetime import datetime
 
 class ConsultaController:

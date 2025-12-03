@@ -12,15 +12,12 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
-    
-    # Carrega a configuração de banco na pasta database
     app.config.from_object('database.DevelopmentConfig')
 
     log_level = app.config.get('LOG_LEVEL', logging.INFO)
     logging.basicConfig(level=log_level)
     app.logger.setLevel(log_level)
 
-    # Inicializa as extensões
     CORS(app)
     db.init_app(app)
 
@@ -51,7 +48,6 @@ def create_app():
 
     Swagger(app, config=swagger_config, template=swagger_template)
 
-    # Registra os blueprints da API
     from .routes.pacientes import pacientes_bp
     from .routes.especialidades import especialidades_bp
     from .routes.consultas import consulta_bp
@@ -62,42 +58,34 @@ def create_app():
     app.register_blueprint(consulta_bp, url_prefix='/api/consultas')
     app.register_blueprint(medico_bp, url_prefix='/api/medicos')
 
-    # As tabelas são criadas sob demanda para ambientes sem migrações
     with app.app_context():
         db.create_all()
 
-    # Serve dashboard static page at /dashboard
-    @app.route('/dashboard')
-    def dashboard():
-        # static files are located in app/static/
-        return send_from_directory('static/dashboard', 'index.html')
+    frontend_folder = os.path.join(app.root_path, 'static', 'app')
 
-    # Optional: serve any nested assets under /dashboard/
-    @app.route('/dashboard/<path:filename>')
-    def dashboard_assets(filename):
-        return send_from_directory('static/dashboard', filename)
-
-    # NOTE: Serve only the shipped static dashboard and do NOT serve the
-    # React build placed in `static/app`. Root redirects to the dashboard.
-    from flask import redirect
+    def serve_frontend(filename: str = 'index.html'):
+        asset_path = os.path.join(frontend_folder, filename)
+        if os.path.exists(asset_path):
+            return send_from_directory(frontend_folder, filename)
+        return (
+            'Build do frontend não encontrado. Rode "npm run build" em frontend/ e sincronize para app/static/app.',
+            404,
+        )
 
     @app.route('/')
     def index():
-        return redirect('/dashboard')
+        return serve_frontend()
 
     @app.route('/<path:filename>')
     def app_static(filename):
-        # Avoid catching API routes (they are registered under /api)
         if filename.startswith('api/'):
             return ('', 404)
 
-        # Only allow serving files from the dashboard static folder. Any other
-        # path returns 404.
-        dashboard_path = os.path.join(app.root_path, 'static', 'dashboard', filename)
-        if os.path.exists(dashboard_path):
-            return send_from_directory('static/dashboard', filename)
+        asset_path = os.path.join(frontend_folder, filename)
+        if os.path.exists(asset_path):
+            return send_from_directory(frontend_folder, filename)
 
-        return ('', 404)
+        return serve_frontend()
 
     @app.errorhandler(404)
     def handle_not_found(error):

@@ -1,4 +1,47 @@
 .DS_Store
+Thumbs.db
+
+# Python artifacts
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment files and secrets
 .env
+.env.*
+*.env
+
+# Flask instance folder (per-environment configs)
+instance/
+BACKEND/instance/
+
+# Node / frontend
+node_modules/
+frontend/node_modules/
+frontend/.vite/
+frontend/.turbo/
+frontend/.eslintcache
+
+# Build output
+dist/
+frontend/dist/
+coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Editor / OS specific
+.vscode/
+.idea/

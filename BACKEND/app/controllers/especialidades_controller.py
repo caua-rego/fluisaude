@@ -74,6 +74,8 @@ def update_especialidade(especialidade_id: int, data: dict) -> Especialidade:
 
 def delete_especialidade(especialidade_id: int) -> None:
     especialidade = get_especialidade_by_id(especialidade_id)
+    if especialidade.medicos:
+        raise ValueError("Existem médicos vinculados a esta especialidade. Atualize ou remova os vínculos antes de excluir.")
     db.session.delete(especialidade)
     _commit_session()
 
