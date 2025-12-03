@@ -51,10 +51,10 @@ O FluiSaúde surge como solução moderna e integrada para estes problemas.
 
 | Nome | Função | Responsabilidade |
 |------|--------|------------------|
-| **Cauã Rego Tavares Leite Duarte** | Líder do Grupo | Coordenação geral e CRUD de Médicos |
+| **Cauã Rego Tavares Leite Duarte** | Líder do Grupo | Tech Lead & Coordenação Geral |
 | Matheus Rodrigues Laré | Desenvolvedor | CRUD de Especialidades |
 | Guilherme Alves | Desenvolvedor | CRUD de Consultas |
-| Fernando Andrade | Desenvolvedor | CRUD de Pacientes |
+| Fernando Andrade | Desenvolvedor | CRUD de Médicos |
 | João Pedro Cavalcanti de Souza | Desenvolvedor | CRUD de Consultas |
 | Gabriel Brito Ferreira Dias | Desenvolvedor | CRUD de Médicos |
 | Luis Felipe Farias Nunes | Desenvolvedor | CRUD de Especialidades |
