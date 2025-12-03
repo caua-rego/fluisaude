@@ -49,16 +49,16 @@ O FluiSaúde surge como solução moderna e integrada para estes problemas.
 
 ## Equipe
 
-| Nome | Função | Responsabilidade |
-|------|--------|------------------|
-| **Cauã Rego Tavares Leite Duarte** | Líder do Grupo | Tech Lead & Coordenação Geral |
-| Matheus Rodrigues Laré | Desenvolvedor | CRUD de Especialidades |
-| Guilherme Alves | Desenvolvedor | CRUD de Consultas |
-| Fernando Andrade | Desenvolvedor | CRUD de Médicos |
-| João Pedro Cavalcanti de Souza | Desenvolvedor | CRUD de Consultas |
-| Gabriel Brito Ferreira Dias | Desenvolvedor | CRUD de Médicos |
-| Luis Felipe Farias Nunes | Desenvolvedor | CRUD de Especialidades |
-| Renato Santos Chong | Desenvolvedor | CRUD de Pacientes |
+| Nome | Função | Responsabilidade | LinkedIn |
+|------|--------|------------------|----------|
+| **Cauã Rego Tavares Leite Duarte** | Líder do Grupo | Tech Lead & Coordenação Geral | [LinkedIn](https://www.linkedin.com/in/cau%C3%A3-rego-developer/) |
+| Matheus Rodrigues Laré | Desenvolvedor | CRUD de Especialidades | [LinkedIn](https://linkedin.com/in/matheusrlarre) |
+| Guilherme Alves | Desenvolvedor | CRUD de Consultas | [LinkedIn](https://www.linkedin.com/in/guiialves/) |
+| Fernando Andrade | Desenvolvedor | CRUD de Médicos | [LinkedIn](https://br.linkedin.com/in/fernando-andrade-046068344) |
+| João Pedro Cavalcanti de Souza | Desenvolvedor | CRUD de Consultas | [LinkedIn](https://www.linkedin.com/in/joão-pedro-758b76380?utm_source=share_via&utm_content=profile&utm_medium=member_ios) |
+| Gabriel Brito Ferreira Dias | Desenvolvedor | CRUD de Médicos | [LinkedIn](https://www.linkedin.com/in/gabriel-brito-572ab9377/) |
+| Luis Felipe Farias Nunes | Desenvolvedor | CRUD de Especialidades | [LinkedIn](https://www.linkedin.com/in/lu%C3%ADs-nunes-35b099149/) |
+| Renato Santos Chong | Desenvolvedor | CRUD de Pacientes | [LinkedIn](https://www.linkedin.com/in/renato-chong-28571b216/) |
 
 ## Funcionalidades
 
